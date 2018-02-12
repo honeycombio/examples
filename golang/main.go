@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS shouts (
 	}
 
 	hcConfig := libhoney.Config{
-		WriteKey: os.Getenv("HC_WRITEKEY"),
+		WriteKey: os.Getenv("HONEYCOMB_WRITEKEY"),
 		Dataset:  "shoutr-main",
 	}
 	if err := libhoney.Init(hcConfig); err != nil {
