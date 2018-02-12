@@ -1,0 +1,4 @@
+Flask
+flask_sqlalchemy
+libhoney
+mysqlclient
