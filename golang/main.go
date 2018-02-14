@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"reflect"
+	"runtime"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -23,10 +25,15 @@ import (
 var (
 	decoder           = schema.NewDecoder()
 	sessionName       = "default"
-	hnyDatasetName    = "shoutr-main"
+	hnyDatasetName    = "examples.golang-webapp"
 	sessionStore      = sessions.NewCookieStore([]byte("best-secret-in-the-world"))
 	maxConnectRetries = 10
-	baseTmpl          = `
+
+	// 140 is the proper amount of characters for a microblog. Any other
+	// value is heresy.
+	maxShoutLength = 140
+
+	baseTmpl = `
 <!doctype html>
 <html>
 <head>
@@ -111,6 +118,9 @@ var (
 Welcome {{.User.FirstName}}.
 </p>
 <h3>Get shoutin':</h3>
+{{if .ErrorMessage}}
+<p style="color: red;">{{.ErrorMessage}}</p>
+{{end}}
 <form action="/shout" method="POST">
 <textarea rows="4" cols="80" name="content" required>
 </textarea>
@@ -184,7 +194,7 @@ CREATE TABLE IF NOT EXISTS shouts (
 	id INT NOT NULL AUTO_INCREMENT,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	user_id INT,
-	content VARCHAR(280) NOT NULL,
+	content VARCHAR(140) NOT NULL,
 	PRIMARY KEY (id)
 );
 `)
@@ -192,7 +202,6 @@ CREATE TABLE IF NOT EXISTS shouts (
 		panic(err)
 	}
 
-	// BEGIN Honeycomb Instrumentation
 	hcConfig := libhoney.Config{
 		WriteKey: os.Getenv("HONEYCOMB_WRITEKEY"),
 		Dataset:  hnyDatasetName,
@@ -208,7 +217,21 @@ CREATE TABLE IF NOT EXISTS shouts (
 	} else {
 		log.Print(fmt.Sprintf("Sending Honeycomb events to the %q dataset on %q team", hnyDatasetName, hnyTeam))
 	}
-	// END Honeycomb Instrumentation
+
+	// Initialize fields that every sent event will have.
+	if hostname, err := os.Hostname(); err == nil {
+		libhoney.AddField("system.hostname", hostname)
+	}
+	libhoney.AddDynamicField("runtime.num_goroutines", func() interface{} {
+		return runtime.NumGoroutine()
+	})
+	libhoney.AddDynamicField("runtime.memory_inuse", func() interface{} {
+		// Could leave this out if performance sensitive. However, it's
+		// used here to demonstrate dynamic event fields.
+		var mem runtime.MemStats
+		runtime.ReadMemStats(&mem)
+		return mem.Alloc
+	})
 }
 
 type User struct {
@@ -238,55 +261,98 @@ type RenderedShout struct {
 	CreatedAt mysql.NullTime `db:"created_at"`
 }
 
+func addRequestProps(req *http.Request, ev *libhoney.Event) {
+	// Add a variety of details about the HTTP request, such as user agent
+	// and method, to any created libhoney event.
+	ev.AddField("request.method", req.Method)
+	ev.AddField("request.path", req.URL.Path)
+	ev.AddField("request.host", req.URL.Host)
+	ev.AddField("request.proto", req.Proto)
+	ev.AddField("request.content_length", req.ContentLength)
+	ev.AddField("request.remote_addr", req.RemoteAddr)
+	ev.AddField("request.user_agent", req.UserAgent())
+}
+
+func addFinalFieldsAndSend(requestStart time.Time, err error, ev *libhoney.Event) {
+	ev.AddField("errors.main", err)
+	ev.AddField("timers.total_time_ms", time.Since(requestStart)/time.Millisecond)
+
+	// The piece that finally ships the data off to Honeycomb. This won't
+	// block, it will send the request and read the response in a new
+	// goroutine.
+	ev.Send()
+}
+
 func signupHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	ev := libhoney.NewEvent()
+	requestStart := time.Now()
+	defer addFinalFieldsAndSend(requestStart, err, ev)
+	addRequestProps(r, ev)
+
 	tmpl := template.Must(template.New("").Parse(baseTmpl + signupTmpl))
 	tmplData := struct {
 		ErrorMessage string
 	}{}
 	if r.Method == "GET" {
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return
 	}
 	if r.Method == "POST" {
-		if err := r.ParseForm(); err != nil {
+		if err = r.ParseForm(); err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusBadRequest)
+
+			ev.AddField("response.status_code", http.StatusBadRequest)
+
 			tmplData.ErrorMessage = "Couldn't parse form"
-			if err := tmpl.Execute(w, tmplData); err != nil {
+			if err = tmpl.Execute(w, tmplData); err != nil {
 				log.Print(err)
 			}
 			return
 		}
 
 		var user User
-		if err := decoder.Decode(&user, r.PostForm); err != nil {
+		if err = decoder.Decode(&user, r.PostForm); err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusBadRequest)
+
+			ev.AddField("response.status_code", http.StatusBadRequest)
+
 			tmplData.ErrorMessage = "An error occurred"
-			if err := tmpl.Execute(w, tmplData); err != nil {
+			if err = tmpl.Execute(w, tmplData); err != nil {
 				log.Print(err)
 			}
 			return
 		}
 
+		ev.AddField("user.email", user.Email)
+
 		if user.Password != user.RepeatedPassword {
 			w.WriteHeader(http.StatusBadRequest)
+
+			ev.AddField("response.status_code", http.StatusBadRequest)
+
 			tmplData.ErrorMessage = "Passwords don't match"
-			if err := tmpl.Execute(w, tmplData); err != nil {
+			if err = tmpl.Execute(w, tmplData); err != nil {
 				log.Print(err)
 			}
 			return
 		}
+
+		var hashedPassword []byte
 
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 		if err != nil {
 			log.Print(err)
 			http.Error(w, "Something went wrong", http.StatusInternalServerError)
+
+			ev.AddField("response.status_code", http.StatusInternalServerError)
 		}
 
-		if err := validation.ValidateStruct(&user,
+		if err = validation.ValidateStruct(&user,
 			validation.Field(&user.FirstName, is.Alpha),
 			validation.Field(&user.LastName, is.Alpha),
 			validation.Field(&user.Username, is.Alphanumeric),
@@ -294,11 +360,13 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 		); err != nil {
 			log.Print(err)
 			tmplData.ErrorMessage = "Validation failure"
-			if err := tmpl.Execute(w, tmplData); err != nil {
+			if err = tmpl.Execute(w, tmplData); err != nil {
 				log.Print(err)
 			}
 			return
 		}
+
+		queryStart := time.Now()
 
 		res, err := db.Exec(`INSERT INTO users
 (first_name, last_name, username, password, email)
@@ -311,6 +379,8 @@ VALUES
 			return
 		}
 
+		ev.AddField("timers.users_insert_ms", time.Since(queryStart)/time.Millisecond)
+
 		session, _ := sessionStore.Get(r, sessionName)
 		userID, err := res.LastInsertId()
 		if err != nil {
@@ -319,19 +389,28 @@ VALUES
 			return
 		}
 		session.Values["user_id"] = int(userID)
+
+		ev.AddField("user.id", int(userID))
+
 		session.Save(r, w)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	requestStart := time.Now()
+	ev := libhoney.NewEvent()
+	addRequestProps(r, ev)
+	defer addFinalFieldsAndSend(requestStart, err, ev)
+
 	tmpl := template.Must(template.New("").Parse(baseTmpl + loginTmpl))
 	tmplData := struct {
 		ErrorMessage string
 	}{}
 
 	if r.Method == "GET" {
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return
@@ -339,11 +418,14 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user := User{}
 
-	if err := r.ParseForm(); err != nil {
+	if err = r.ParseForm(); err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusBadRequest)
+
+		ev.AddField("response.status_code", http.StatusBadRequest)
+
 		tmplData.ErrorMessage = "Couldn't parse form properly"
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return
@@ -352,19 +434,25 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	pass := r.FormValue("password")
 	username := r.FormValue("username")
 
-	if err := db.Get(&user, `SELECT id, password FROM users WHERE username = ?`, username); err != nil {
+	if err = db.Get(&user, `SELECT id, password FROM users WHERE username = ?`, username); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+
+		ev.AddField("response.status_code", http.StatusBadRequest)
+
 		tmplData.ErrorMessage = "Couldn't log you in."
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass)); err != nil {
+	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass)); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+
+		ev.AddField("response.status_code", http.StatusBadRequest)
+
 		tmplData.ErrorMessage = "That's not a valid password, you sneaky devil."
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return
@@ -378,19 +466,40 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func shoutHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	requestStart := time.Now()
+	ev := libhoney.NewEvent()
+	addRequestProps(r, ev)
+	defer addFinalFieldsAndSend(requestStart, err, ev)
+
 	session, _ := sessionStore.Get(r, sessionName)
 	userID := session.Values["user_id"]
-	if err := r.ParseForm(); err != nil {
+	if err = r.ParseForm(); err != nil {
 		log.Print(err)
-		http.Redirect(w, r, "/", http.StatusBadRequest)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
+	ev.AddField("user.id", userID)
+
 	content := r.FormValue("content")
 
-	if _, err := db.Exec(`INSERT INTO shouts (content, user_id) VALUES (?, ?)`, content, userID); err != nil {
+	ev.AddField("shout.content_length", len(content))
+
+	if len(content) > maxShoutLength {
+		session, _ := sessionStore.Get(r, sessionName)
+		session.AddFlash("Your shout is too long!")
+		session.Save(r, w)
+		ev.AddField("shout.content", content[:140])
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	ev.AddField("shout.content", content)
+
+	if _, err = db.Exec(`INSERT INTO shouts (content, user_id) VALUES (?, ?)`, content, userID); err != nil {
 		log.Print(err)
-		http.Redirect(w, r, "/", http.StatusBadRequest)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
@@ -398,6 +507,11 @@ func shoutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	requestStart := time.Now()
+	ev := libhoney.NewEvent()
+	addRequestProps(r, ev)
+	defer addFinalFieldsAndSend(requestStart, err, ev)
 	session, _ := sessionStore.Get(r, sessionName)
 	delete(session.Values, "user_id")
 	session.Save(r, w)
@@ -405,26 +519,45 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	requestStart := time.Now()
+	ev := libhoney.NewEvent()
+	addRequestProps(r, ev)
+	defer addFinalFieldsAndSend(requestStart, err, ev)
 	tmpl := template.Must(template.New("").Parse(baseTmpl + mainTmpl))
 	session, _ := sessionStore.Get(r, sessionName)
 	tmplData := struct {
-		User   User
-		Shouts []RenderedShout
+		User         User
+		Shouts       []RenderedShout
+		ErrorMessage string
 	}{}
+
+	flashes := session.Flashes()
+	if len(flashes) == 1 {
+		flash, ok := flashes[0].(string)
+		if !ok {
+			ev.AddField("flash.err", "Flash didn't assert to type string, got "+reflect.TypeOf(flash).String())
+		} else {
+			tmplData.ErrorMessage = flash
+			ev.AddField("flash.value", flash)
+		}
+		session.Save(r, w)
+	}
+
 	// Not logged in
 	if userID, ok := session.Values["user_id"]; !ok {
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return
 	} else {
-		if err := db.Get(&tmplData.User, `SELECT * FROM users WHERE id = ?`, userID); err != nil {
+		if err = db.Get(&tmplData.User, `SELECT * FROM users WHERE id = ?`, userID); err != nil {
 			log.Print(err)
 			http.Error(w, "Something went wrong", http.StatusInternalServerError)
 			return
 		}
 
-		if err := db.Select(&tmplData.Shouts, `
+		if err = db.Select(&tmplData.Shouts, `
 SELECT users.first_name, users.last_name, users.username, shouts.content, shouts.created_at
 FROM shouts
 INNER JOIN users
@@ -436,7 +569,7 @@ ORDER BY created_at DESC
 			return
 		}
 
-		if err := tmpl.Execute(w, tmplData); err != nil {
+		if err = tmpl.Execute(w, tmplData); err != nil {
 			log.Print(err)
 		}
 		return

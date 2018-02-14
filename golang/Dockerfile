@@ -5,6 +5,6 @@ RUN go install github.com/honeycombio/examples/golang
 
 FROM alpine
 
-COPY --from=0 /go/bin/golang /usr/bin/shoutr
 RUN apk add --update --no-cache ca-certificates
+COPY --from=0 /go/bin/golang /usr/bin/shoutr
 ENTRYPOINT ["/usr/bin/shoutr"]
