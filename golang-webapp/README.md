@@ -42,6 +42,7 @@ $ docker-compose up
 ## Event Fields
 
 | **Name** | **Description** | **Example Value** |
+| --- | --- | --- |
 | `flash.value` | Contents of the rendered flash message | `Your shout is too long!` |
 | `request.content_length`| Length of the content (in bytes) of the sent HTTP request | `952` |
 | `request.host` | Host the request was sent to | `localhost` |
