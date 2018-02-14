@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -20,10 +21,12 @@ import (
 )
 
 var (
-	decoder      = schema.NewDecoder()
-	sessionName  = "default"
-	sessionStore = sessions.NewCookieStore([]byte("best-secret-in-the-world"))
-	baseTmpl     = `
+	decoder           = schema.NewDecoder()
+	sessionName       = "default"
+	hnyDatasetName    = "shoutr-main"
+	sessionStore      = sessions.NewCookieStore([]byte("best-secret-in-the-world"))
+	maxConnectRetries = 10
+	baseTmpl          = `
 <!doctype html>
 <html>
 <head>
@@ -141,10 +144,25 @@ func init() {
 	dbUser := "root"
 	dbPass := ""
 	dbName := "shoutr"
-	db, err = sqlx.Connect("mysql", fmt.Sprintf("%s:%s@tcp(localhost:3306)/%s", dbUser, dbPass, dbName))
-	if err != nil {
-		panic(err)
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		dbHost = "localhost"
 	}
+
+	for i := 0; i < maxConnectRetries; i++ {
+		db, err = sqlx.Connect("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s", dbUser, dbPass, dbHost, dbName))
+		if err != nil {
+			log.Print("Error connecting to database: ", err)
+		} else {
+			break
+		}
+		if i == maxConnectRetries-1 {
+			panic("Couldn't connect to DB")
+		}
+		time.Sleep(1 * time.Second)
+	}
+
+	log.Print("Creating database...")
 
 	_, err = db.Exec(`
 CREATE TABLE IF NOT EXISTS users (
@@ -174,16 +192,23 @@ CREATE TABLE IF NOT EXISTS shouts (
 		panic(err)
 	}
 
+	// BEGIN Honeycomb Instrumentation
 	hcConfig := libhoney.Config{
 		WriteKey: os.Getenv("HONEYCOMB_WRITEKEY"),
-		Dataset:  "shoutr-main",
+		Dataset:  hnyDatasetName,
 	}
 	if err := libhoney.Init(hcConfig); err != nil {
-		panic(err)
+		log.Print(err)
+		os.Exit(1)
 	}
-	if _, err := libhoney.VerifyWriteKey(hcConfig); err != nil {
-		panic(err)
+	if hnyTeam, err := libhoney.VerifyWriteKey(hcConfig); err != nil {
+		log.Print(err)
+		log.Print("Please make sure the HONEYCOMB_WRITEKEY environment variable is set.")
+		os.Exit(1)
+	} else {
+		log.Print(fmt.Sprintf("Sending Honeycomb events to the %q dataset on %q team", hnyDatasetName, hnyTeam))
 	}
+	// END Honeycomb Instrumentation
 }
 
 type User struct {
