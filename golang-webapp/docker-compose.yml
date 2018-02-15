@@ -16,13 +16,14 @@ services:
     networks:
     - main
     volumes:
-    - shoutr-golang:/var/lib
+    - example-golang-webapp:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes" # value is arbitrary
       MYSQL_DATABASE: "shoutr"          # create DB shoutr automatically
+      ENV: "dev"
 
 volumes:
-  shoutr-golang:
+  example-golang-webapp:
 
 networks:
   main:

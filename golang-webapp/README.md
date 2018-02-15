@@ -36,7 +36,7 @@ $ export HONEYCOMB_WRITEKEY=<writekey>
 Then:
 
 ```
-$ docker-compose up
+$ docker-compose build && docker-compose up
 ```
 
 ## Event Fields

@@ -210,12 +210,20 @@ CREATE TABLE IF NOT EXISTS shouts (
 		log.Print(err)
 		os.Exit(1)
 	}
+
 	if hnyTeam, err := libhoney.VerifyWriteKey(hcConfig); err != nil {
 		log.Print(err)
 		log.Print("Please make sure the HONEYCOMB_WRITEKEY environment variable is set.")
 		os.Exit(1)
 	} else {
 		log.Print(fmt.Sprintf("Sending Honeycomb events to the %q dataset on %q team", hnyDatasetName, hnyTeam))
+	}
+
+	// This will ensure that our libhoney events get printed to the
+	// console. This allows for easier iterating and debugging of
+	// instrumentation.
+	if os.Getenv("ENV") == "dev" {
+		libhoney.SetOutput(libhoney.WriterOutput)
 	}
 
 	// Initialize fields that every sent event will have.
