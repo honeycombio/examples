@@ -10,6 +10,7 @@ services:
     environment:
       DB_HOST: db
       HONEYCOMB_WRITEKEY: 
+    restart: on-failure
 
   db:
     image: mysql

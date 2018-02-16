@@ -387,7 +387,7 @@ VALUES
 			return
 		}
 
-		ev.AddField("timers.users_insert_ms", time.Since(queryStart)/time.Millisecond)
+		ev.AddField("timers.db.users_insert_ms", time.Since(queryStart)/time.Millisecond)
 
 		session, _ := sessionStore.Get(r, sessionName)
 		userID, err := res.LastInsertId()
