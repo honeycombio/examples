@@ -1,6 +1,7 @@
 FROM golang:alpine
 
 RUN apk add --update --no-cache git
+RUN echo hi
 RUN go get github.com/honeycombio/honeytail
 
 FROM alpine

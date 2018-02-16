@@ -102,8 +102,8 @@ def after(response):
 def index():
     return jsonify(up=True)
 
-@app.route("/todos", defaults={"todo_id": None}, methods=["GET", "POST"])
-@app.route("/todos/<int:todo_id>", methods=["GET", "DELETE", "PUT"])
+@app.route("/todos/", defaults={"todo_id": None}, methods=["GET", "POST"])
+@app.route("/todos/<int:todo_id>/", methods=["GET", "DELETE", "PUT"])
 def todo(todo_id):
     if todo_id is None:
         if request.method == "POST":
