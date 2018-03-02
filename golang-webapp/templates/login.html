@@ -1,0 +1,20 @@
+{{define "body"}}
+{{if .ErrorMessage}}
+<p style="color: red;">{{.ErrorMessage}}</p>
+{{end}}
+<form action="/login" method="POST">
+<div>
+<label><b>Username:</b></label>
+<input type="text" placeholder="Username" name="username" required>
+</div>
+
+<div>
+<label><b>Password:</b></label>
+<input type="password" placeholder="Password" name="password" required>
+</div>
+
+<div>
+<button type="submit">Login</button>
+</div>
+</form>
+{{end}}
