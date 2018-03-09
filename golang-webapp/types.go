@@ -3,13 +3,11 @@ package main
 import "github.com/go-sql-driver/mysql"
 
 type User struct {
-	ID               int    `db:"id"`
-	FirstName        string `db:"first_name" schema:"first_name"`
-	LastName         string `db:"last_name" schema:"last_name"`
-	Username         string `db:"username" schema:"username"`
-	Email            string `db:"email" schema:"email"`
-	Password         string `db:"password" schema:"password"`
-	RepeatedPassword string `schema:"repeated_password"`
+	ID        int    `db:"id"`
+	FirstName string `db:"first_name" schema:"first_name"`
+	LastName  string `db:"last_name" schema:"last_name"`
+	Username  string `db:"username" schema:"username"`
+	Email     string `db:"email" schema:"email"`
 }
 
 type Shout struct {

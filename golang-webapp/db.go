@@ -37,12 +37,11 @@ func init() {
 		time.Sleep(1 * time.Second)
 	}
 
-	log.Print("Creating database...")
+	log.Print("Bootstrapping database...")
 
 	_, err = db.Exec(`
 CREATE TABLE IF NOT EXISTS users (
 	id INT NOT NULL AUTO_INCREMENT,
-	password VARCHAR(64) NOT NULL,
 	first_name VARCHAR(64) NOT NULL,
 	last_name VARCHAR(64) NOT NULL,
 	username VARCHAR(64) NOT NULL,

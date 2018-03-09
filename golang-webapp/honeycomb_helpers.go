@@ -27,7 +27,7 @@ func init() {
 	// This will ensure that our libhoney events get printed to the
 	// console. This allows for easier iterating and debugging of
 	// instrumentation.
-	if os.Getenv("ENV") == "dev" {
+	if os.Getenv("ENV") != "production" {
 		hcConfig.Output = &libhoney.WriterOutput{}
 	}
 
@@ -45,6 +45,9 @@ func init() {
 	}
 
 	// Initialize fields that every sent event will have.
+
+	// Getting hostname on every event can be very useful if, e.g., only a
+	// particular host or set of hosts are the source of an issue.
 	if hostname, err := os.Hostname(); err == nil {
 		libhoney.AddField("system.hostname", hostname)
 	}
@@ -52,10 +55,9 @@ func init() {
 		return runtime.NumGoroutine()
 	})
 	libhoney.AddDynamicField("runtime.memory_inuse", func() interface{} {
-		// Could leave this out if performance sensitive. However, it's
-		// used here to demonstrate dynamic event fields. This will
-		// ensure that every event includes informaiton about the
-		// memory usage of the process at the time the event was sent.
+		// This will ensure that every event includes information about
+		// the memory usage of the process at the time the event was
+		// sent.
 		var mem runtime.MemStats
 		runtime.ReadMemStats(&mem)
 		return mem.Alloc
@@ -65,10 +67,12 @@ func init() {
 type HoneyResponseWriter struct {
 	*libhoney.Event
 	http.ResponseWriter
+	StatusCode int
 }
 
 func (hrw *HoneyResponseWriter) WriteHeader(status int) {
-	hrw.Event.AddField("response.status_code", status)
+	// Mark this down for adding to the libhoney event later.
+	hrw.StatusCode = status
 	hrw.ResponseWriter.WriteHeader(status)
 }
 
@@ -108,18 +112,15 @@ func HoneycombMiddleware(fn func(http.ResponseWriter, *http.Request)) func(http.
 		ctx := context.WithValue(r.Context(), hnyContextKey, ev)
 		reqWithContext := r.WithContext(ctx)
 
-		// TODO: Probably not quite right
-		if _, ok := ev.Fields()["response.status_code"]; !ok {
-			ev.AddField("response.status_code", 200)
-		}
-
-		// HoneyResponseWriter will capture the HTTP status code for us
-		// and add it to the libhoney per-request event.
-		fn(&HoneyResponseWriter{
+		honeyResponseWriter := &HoneyResponseWriter{
 			Event:          ev,
 			ResponseWriter: w,
-		}, reqWithContext)
+			StatusCode:     200,
+		}
 
+		fn(honeyResponseWriter, reqWithContext)
+
+		ev.AddField("response.status_code", honeyResponseWriter.StatusCode)
 		handlerDuration := time.Since(startHandler)
 		ev.AddField("timers.total_time_ms", handlerDuration/time.Millisecond)
 	}
