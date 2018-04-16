@@ -1,5 +1,13 @@
 ## python-api
 
+The Python API example shows how to do Honeycomb instrumentation with a Flask app.
+
+Events are created per-HTTP-request (following the Honeycomb _one event per unit of work_
+model) using the `@app.before_request` decorator and sent after the request using the
+`@app.after_request` decorator. Because the events are stored on `g`, Flask's thread 
+local storage, the events contain a variety of default properties describing the request
+as well as custom fields that can be added by any handler using `g.ev.add_field`.
+
 ## Run Locally
 
 Set your [Honeycomb write key](https://ui.honeycomb.io/account) to
