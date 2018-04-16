@@ -32,5 +32,9 @@ The following have been proposed but not implemented:
 | `logstash` | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
 | `fluentd` | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb. |
 
+We highly encourage community contribution! Let us know if there's anything you'd like to see
+by [filing an issue](https://github.com/honeycombio/examples/issues/new) and CC-ing Honeycombers
+for discussion.
+
 Let us know if there is something specific you'd like to see by [filing an
 issue](https://github.com/honeycombio/examples/issues/new).
