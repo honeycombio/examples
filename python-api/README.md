@@ -29,7 +29,7 @@ $ FLASK_APP=app.py flask run
 
 A basic REST API for todos is exposed on port 5000.
 
-```
+```sh
 $ curl \
     -H 'Content-Type: application/json' \
     -X POST -d '{"description": "Walk the dog", "due": 1518816723}' \
