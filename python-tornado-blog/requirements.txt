@@ -1,0 +1,6 @@
+aiopg
+bcrypt
+markdown
+libhoney
+psycopg2
+tornado
