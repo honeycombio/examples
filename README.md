@@ -15,6 +15,8 @@ you along. The current examples are:
 | `honeytail-dockerd` | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | `honeytail-nginx` | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
 | `python-api` | A TODO API written and instrumented using Python (Flask). |
+| `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing. |
+| `ruby-wiki-tracing` | A simple wiki (Ruby) manually instrumented for tracing. |
 
 ## Proposed Examples
 

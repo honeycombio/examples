@@ -48,7 +48,7 @@ And click into the graph to inspect individual traces:
 
 ## A Note on Code Style
 
-The purpose of this example is to illustrate the **bare minimum necessary** to propagate and set identifiers to enable tracing on an application for consumption by Honeycomb, illustrating the steps described in the top section of this README.
+The purpose of this example is to illustrate the **bare minimum necessary** to propagate and set identifiers to enable tracing on an application for consumption by Honeycomb, illustrating the steps described in the top section of this README. We prioritized legibility over style and intentionally resisted refactoring that would sacrifice clarity. :)
 
 Are you grossed out by the code? Fortunately, there are a number of options beyond this DIY approach:
 
