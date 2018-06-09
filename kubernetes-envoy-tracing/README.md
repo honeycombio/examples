@@ -33,10 +33,6 @@ $ kubectl delete -f demo.yaml
 $ kubectl apply -f demo.yaml
 ```
 
-## How to use a custom version of the Flask app image?
-
-A Flask app image is powering the `service1` and `service2` Deployments.
-
 ## Using the app
 
 This diagram from the Envoy documentation gives a good general idea of the
