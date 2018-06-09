@@ -69,8 +69,7 @@ Once the pods are running, this command will forward port 80 from the front
 Envoy pod to `localhost:8000`:
 
 ```
-$ kubectl port-forward $(kubectl get --no-headers=true pods -o name | grep front)
-8000:80
+$ kubectl port-forward $(kubectl get --no-headers=true pods -o name | grep front) 8000:80
 ```
 
 You can get the service to echo back a string (wrapped in some HTML) by using
