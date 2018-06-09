@@ -50,6 +50,21 @@ Envoys.
   see this in the Flask app source code) - this is the only app code change
   needed for tracing instrumentation, Envoy will handle the rest.
 
+You can verify the pods are running with `kubectl get pods` (using the default Kubernetes namespace). It should look something like this:
+
+```
+$ kubectl get pods
+NAME                                           READY     STATUS    RESTARTS   AGE
+front-envoy-6957db78c8-t7dcl                   1/1       Running   0          5m
+honeycomb-opentracing-proxy-64d9dc97f7-7sjmf   1/1       Running   0          5m
+service1-68d8d4ff9f-jtw7f                      2/2       Running   0          5m
+service1-68d8d4ff9f-vv2vp                      2/2       Running   0          5m
+service1-68d8d4ff9f-w9gsb                      2/2       Running   0          5m
+service2-855c6cbb5b-cbfq6                      2/2       Running   0          5m
+```
+
+(If there is a `ContainerCreateConfig` error on the OpenTracing proxy pod, make sure you created the writekey secret as instructed above).
+
 Once the pods are running, this command will forward port 80 from the front
 Envoy pod to `localhost:8000`:
 
