@@ -300,7 +300,7 @@ spec:
     spec:
       containers:
       - name: service1
-        image: honeycombio/dockercon-2018-flaskapp:v0.3.0
+        image: honeycombio/dockercon-2018-flaskapp:v0.4.0
         env:
         - name: SERVICE_NAME
           value: "1"
@@ -347,7 +347,7 @@ spec:
     spec:
       containers:
       - name: service2
-        image: honeycombio/dockercon-2018-flaskapp:v0.3.0
+        image: honeycombio/dockercon-2018-flaskapp:v0.4.0
         env:
         - name: SERVICE_NAME
           value: "2"
