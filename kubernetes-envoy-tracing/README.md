@@ -41,7 +41,7 @@ requests, and forwards them all to `service1`, which then in turn calls
 `service2` multiple times. All service-to-service communication happens via
 Envoys.
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy-example-arch.svg)
+![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy-example-arch.png)
 
 - Envoy is listening for ingress on port 80 in each pod
 - For egress, `service1` hits `localhost:9000` (Envoy will listen on this port
@@ -77,7 +77,7 @@ You can get the service to echo back a string (wrapped in some HTML) by using
 
 ```
 $ curl localhost:8000/echo/friend
-<img src="https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy.svg" height="100" />
+<img src="https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy.png" height="100" />
 <pre><code>Hello friend!
 
 Served by:
