@@ -17,6 +17,7 @@ you along. The current examples are:
 | `python-api` | A TODO API written and instrumented using Python (Flask). |
 | `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing. |
 | `ruby-wiki-tracing` | A simple wiki (Ruby) manually instrumented for tracing. |
+| `java-webapp` | A TODO API written and instrumneted using Java Spring |
 
 ## Proposed Examples
 
@@ -24,9 +25,6 @@ The following have been proposed but not implemented:
 
 | Directory | Description |
 | --- | --- |
-| `java-api` | A TODO API written and instrumented using Java. |
-| `golang-api` | A TODO API written and instrumented using Golang. |
-| `ruby-api` | A TODO API written and instrumented using Ruby. |
 | `javascript-api` | A TODO API written and instrumented using JavaScript. |
 | `sidekiq` | Observing behavior of the background job runner Sidekiq. |
 | `honeytail-apache` | Ingesting Apache access logs using Honeytail. |
