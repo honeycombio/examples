@@ -33,6 +33,7 @@ The following have been proposed but not implemented:
 | `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail. |
 | `logstash` | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
 | `fluentd` | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb. |
+| `java-webapp` | A TODO CRUD app using Java Spring |
 
 We highly encourage community contribution! Let us know if there's anything you'd like to see
 by [filing an issue](https://github.com/honeycombio/examples/issues/new) and CC-ing Honeycombers
