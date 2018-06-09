@@ -48,7 +48,7 @@ def trace(name):
     else:
         return jsonify({"upstream": "healthy"})
     print(json.dumps({"normal": True}))
-    return ("""<img src="envoy.svg" height="100" />
+    return ("""<img src="https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy.svg" height="100" />
 <pre><code>Hello {}!
 
 Served by:
