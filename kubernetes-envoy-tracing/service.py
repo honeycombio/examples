@@ -46,16 +46,17 @@ def trace(name):
         print(json.dumps({"error": "too many chrises"}))
         abort(500)
     print(json.dumps({"normal": True}))
-    return ("""<img src="https://d33wubrfki0l68.cloudfront.net/77bb2db951dc11d54851e79e0ca09e3a02b276fa/9c0b7/img/envoy-logo.svg" height="100" />
+    return ("""<img src="envoy.svg" height="100" />
 <pre><code>Hello {}!
 
 Served by:
 service {}
 pod: {}
-resolved hostname: {}</pre>""".format(name,
-                                    os.environ["SERVICE_NAME"],
-                                    socket.gethostname(),
-                                    socket.gethostbyname(socket.gethostname())))
+resolved hostname: {}</code></pre>
+""".format(name,
+           os.environ["SERVICE_NAME"],
+           socket.gethostname(),
+           socket.gethostbyname(socket.gethostname())))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)
