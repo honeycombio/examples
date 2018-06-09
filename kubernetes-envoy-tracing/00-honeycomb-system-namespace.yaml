@@ -1,0 +1,6 @@
+---
+# Honeycomb specific stuff
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: honeycomb-system
