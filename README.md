@@ -17,7 +17,7 @@ you along. The current examples are:
 | `python-api` | A TODO API written and instrumented using Python (Flask). |
 | `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing. |
 | `ruby-wiki-tracing` | A simple wiki (Ruby) manually instrumented for tracing. |
-| `java-webapp` | A TODO API written and instrumneted using Java Spring |
+| `java-webapp` | A TODO API written and instrumented using Java Spring |
 
 ## Proposed Examples
 
@@ -31,7 +31,6 @@ The following have been proposed but not implemented:
 | `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail. |
 | `logstash` | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
 | `fluentd` | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb. |
-| `java-webapp` | A TODO CRUD app using Java Spring |
 
 We highly encourage community contribution! Let us know if there's anything you'd like to see
 by [filing an issue](https://github.com/honeycombio/examples/issues/new) and CC-ing Honeycombers
