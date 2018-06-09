@@ -5,6 +5,7 @@ import sys
 import requests
 import json
 import time
+import random
 
 app = Flask(__name__)
 
@@ -26,12 +27,16 @@ TRACE_HEADERS_TO_PROPAGATE = [
 @app.route("/stage/<int:i>")
 def index(i):
     if i == 3:
-        time.sleep(1)
+        time.sleep(0.3 + (3.0*random.random()))
     return jsonify({"upstream": "healthy"})
 
 @app.route("/echo/<name>")
 def trace(name):
     headers = {}
+    if name == "chris":
+        print(json.dumps({"error": "too many chrises"}))
+        abort(500)
+
     # call service 2 from service 1
     if int(os.environ["SERVICE_NAME"]) == 1 :
         for header in TRACE_HEADERS_TO_PROPAGATE:
@@ -42,9 +47,6 @@ def trace(name):
             print(json.dumps({"upstream_response": str(ret), name: "name"}))
     else:
         return jsonify({"upstream": "healthy"})
-    if name == "chris":
-        print(json.dumps({"error": "too many chrises"}))
-        abort(500)
     print(json.dumps({"normal": True}))
     return ("""<img src="envoy.svg" height="100" />
 <pre><code>Hello {}!
