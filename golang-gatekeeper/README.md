@@ -182,13 +182,13 @@ Ok, so let's step through a few bits.
 
 Our server uses [`gorilla`](http://www.gorillatoolkit.org/) to route HTTP
 requests, which makes it a great target for middleware. After we do our basic
-initialization ([see code](https://github.com/honeycombio/examples/golang-gatekeeper/blob/361ded8883719d6f0ea7ba818c4af8c55e4970e0/main.go#L23)):
+initialization ([see code](https://github.com/honeycombio/examples/blob/c6fbeec11a16ad580642f622f4f3c76fbb6e1db4/golang-gatekeeper/main.go#L23)):
 ```go
 beeline.Init(beeline.Config{/* config here */}}
 ```
 
 we'll add our Beeline's `gorilla` middleware ([see
-code](https://github.com/honeycombio/examples/golang-gatekeeper/blob/361ded8883719d6f0ea7ba818c4af8c55e4970e0/main.go#L34)):
+code](https://github.com/honeycombio/examples/blob/c6fbeec11a16ad580642f622f4f3c76fbb6e1db4/golang-gatekeeper/main.go#L34)):
 
 ```go
 r.Use(hnygorilla.Middleware)
@@ -196,7 +196,7 @@ r.Use(hnygorilla.Middleware)
 
 and wrap our router in our Beeline's HTTP wrapper, which is useful for catching
 unhandled routes ([see
-code](https://github.com/honeycombio/examples/golang-gatekeeper/blob/master/main.go#L42)):
+code](https://github.com/honeycombio/examples/blob/c6fbeec11a16ad580642f622f4f3c76fbb6e1db4/golang-gatekeeper/main.go#L42)):
 
 ```go
 log.Fatal(http.ListenAndServe(":8080", hnynethttp.WrapHandler(r)))
@@ -210,7 +210,7 @@ instrumentation event. In order to give the entire app access to the event in
 order to add custom fields, we pass the context throughout the application.
 
 In functions that interact with the request itself (such as
-`getHeaders` - [see code](https://github.com/honeycombio/examples/golang-gatekeeper/blob/361ded8883719d6f0ea7ba818c4af8c55e4970e0/main.go#L66)),
+`getHeaders` - [see code](https://github.com/honeycombio/examples/blob/c6fbeec11a16ad580642f622f4f3c76fbb6e1db4/golang-gatekeeper/main.go#L66)),
 passing the entire request is sufficient.
 
 ```go
@@ -218,7 +218,7 @@ if err := getHeaders(r, ev); err != nil { /* ... */ }
 ```
 
 In any function that does not need access to the request, we only pass down the
-context (such as `validateWritekey` - [see code](https://github.com/honeycombio/examples/golang-gatekeeper/blob/361ded8883719d6f0ea7ba818c4af8c55e4970e0/main.go#L72)).
+context (such as `validateWritekey` - [see code](https://github.com/honeycombio/examples/blob/c6fbeec11a16ad580642f622f4f3c76fbb6e1db4/golang-gatekeeper/main.go#L72)).
 
 ```go
 team, err := validateWritekey(r.Context(), ev.WriteKey)
@@ -243,7 +243,7 @@ and other attributes on the event will let you understand not just how long each
 function took but _why_ it took that long.
 
 Here's an example of capturing the length of time necessary to unmarshal JSON
-([see code](https://github.com/honeycombio/examples/golang-gatekeeper/blob/361ded8883719d6f0ea7ba818c4af8c55e4970e0/helpers.go#L150-L154)):
+([see code](https://github.com/honeycombio/examples/blob/c6fbeec11a16ad580642f622f4f3c76fbb6e1db4/golang-gatekeeper/helpers.go#L150-L154)):
 
 ```go
 // add a timer around unmarshalling json
