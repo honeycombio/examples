@@ -32,7 +32,7 @@ eventually write it to `/tmp/api#.log`, where # is a partition number (between
 
 ## Sending sample traffic to the server
 
-example of sending an event to the gatekeeper-go server:
+example of sending an event to the golang-gatekeeper server:
 ```bash
 ➜  curl -v localhost:8080/1/events/wade \
     -H "X-Honeycomb-Team: abcd123EFGH" \
