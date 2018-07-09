@@ -1,4 +1,4 @@
-# gatekeeper-go
+# golang-gatekeeper
 
 ## Overview
 
