@@ -12,6 +12,7 @@ you along. The current examples are:
 | Directory | Description |
 | --- | --- |
 | `golang-gatekeeper` | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| `ruby-gatekeeper` | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
 | `golang-webapp` | A two-tier web application (Go+MySQL) which is a Twitter clone. |
 | `honeytail-dockerd` | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | `honeytail-nginx` | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
