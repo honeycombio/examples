@@ -3,7 +3,7 @@ Honeycomb triggers can specify a webhook as the notification target. When config
 * A shared secret token for authentication in the `X-Honeycomb-Webhook-Token` header
 * The results of the trigger as JSON in the body.
 
-This is an example webhook listener that will hear notifications coming from triggers and print them to STDOUT. It is intended to show how to receive and parse the notification rather than be used directly - for example configuration is hard coded instead of looking for a config file. It is instrumented with the Honeycomb beeline so you can see what your webhook is doing!
+This is an example webhook listener that will hear notifications coming from triggers and print them to STDOUT. It is instrumented with the Honeycomb beeline so you can see what your webhook is doing!
 
 Here's an example of a notification that Honeycomb Triggers would send and this webhook would accept and print out:
 
