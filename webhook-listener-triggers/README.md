@@ -50,3 +50,15 @@ The notification is in the `TRIGGERED` state, which mean it has just crossed the
 The `result_groups` key lists every value for the `foo` column and the counts ofr each one. In this case, `foo` has 3 values: `fooOOOddd`, `hungry`, and `chompy`. `chompy` and `hungry` each only have a `COUNT` of 1, and `fooOOOddd` has a cound of 5.
 
 The `result_groups_triggered` key only lists the `fooOOOddd` value becaues it is the only one that is more than 2, the threshold configured in the trigger.
+
+## Install
+
+Clone the repository into $GOPATH/src/github.com/honeycombio/examples.
+
+Pull dependencies.
+
+    $ go get -u ./...
+
+Run app.
+
+    $ go run main.go
