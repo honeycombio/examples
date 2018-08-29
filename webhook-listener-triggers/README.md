@@ -62,3 +62,5 @@ Pull dependencies.
 Run app.
 
     $ go run main.go
+
+Now configure Honeycomb to send a notification to the running listener! Within the Integrations section of your Honeycomb team settings, create a Trigger Recipient with the parameters: Provider: `Webhook`, Webhook URL: `http://example.com:8090/notify`. Create a trigger and add this Webhook as a Recipient. When your trigger fires, Honeycomb will notify this Webhook! (Tools like [ngrok](https://ngrok.com/) can help your local process be available via the public web!)
