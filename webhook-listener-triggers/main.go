@@ -23,7 +23,7 @@ type Config struct {
 	// this webhook that have the secret. Secrets are a per-webhook endpoint
 	// config, so if multiple webhook recipients are configured to send to this
 	// app, multiple shared secrets will be necessary.
-	SharedSecres []string
+	SharedSecretTokens []string
 	// Port is the port on localhost on which this webhook will listen. Default
 	// 8080
 	Port int
@@ -76,7 +76,7 @@ func main() {
 
 	beeline.Init(beeline.Config{
 		WriteKey: "abcabc123123",
-		Dataset:  "http-gorilla",
+		Dataset:  "trigger-webhook",
 		// for demonstration, send the event to STDOUT intead of Honeycomb.
 		// Remove the STDOUT setting when filling in a real write key.
 		// STDOUT: true,
@@ -96,17 +96,34 @@ func main() {
 
 func getConfig() Config {
 	return Config{
-		SharedSecres: []string{"would you like to play a game"},
-		Port:         8090,
-		Output:       os.Stdout,
+		SharedSecretTokens: []string{"would you like to play a game"},
+		Port:               8090,
+		Output:             os.Stdout,
 	}
 }
 
 func (a *App) defaultPath(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Behold the Kreut in the Forest!\n"))
+	w.Write([]byte("Behold the Kroot in the Forest!\n"))
 }
 
 func (a *App) rcvNotification(w http.ResponseWriter, r *http.Request) {
+	// first validate that the shared secret is legit
+	token := r.Header.Get("X-Honeycomb-Webhook-Token")
+	var matched bool
+	if token != "" {
+		for _, ss := range a.conf.SharedSecretTokens {
+			if token == ss {
+				matched = true
+			}
+		}
+	}
+	if !matched {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("failed to authenticate notification\n"))
+		return
+	}
+
+	// ok, it's valid, let's parse the notification and handle it.
 	defer r.Body.Close()
 	bod, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -114,24 +131,11 @@ func (a *App) rcvNotification(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("failed to read body\n"))
 		return
 	}
-	fmt.Println(string(bod))
 	var notif = Notification{}
 	err = json.Unmarshal(bod, &notif)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("failed to parse json\n"))
-		return
-	}
-	// now validate that the shared secret is legit
-	var matched bool
-	for _, ss := range a.conf.SharedSecres {
-		if notif.SharedSecret == ss {
-			matched = true
-		}
-	}
-	if !matched {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("failed to authenticate notification\n"))
 		return
 	}
 	// hooray, let's write out our notification
