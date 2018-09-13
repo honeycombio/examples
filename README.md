@@ -9,17 +9,17 @@ Most of the top level directories in this repository correspond to an example
 which demonstrates instrumentation using Honeycomb and sample queries to help
 you along. The current examples are:
 
-| Directory | Description |
-| --- | --- |
-| `golang-gatekeeper` | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `ruby-gatekeeper` | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `golang-webapp` | A two-tier web application (Go+MySQL) which is a Twitter clone. |
-| `honeytail-dockerd` | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
-| `honeytail-nginx` | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
-| `python-api` | A TODO API written and instrumented using Python (Flask). |
-| `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing. |
-| `ruby-wiki-tracing` | A simple wiki (Ruby) manually instrumented for tracing. |
-| `java-webapp` | A TODO API written and instrumented using Java Spring |
+| Directory | Meant to Teach | Description |
+| --- | --- | --- |
+| `golang-gatekeeper` | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| `ruby-gatekeeper` | [Ruby Beeline](https://docs.honeycomb.io/getting-data-in/beelines/ruby-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| `golang-webapp` | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
+| `honeytail-dockerd` | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
+| `honeytail-nginx` | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
+| `python-api` | [libhoney-py](https://docs.honeycomb.io/sdk/python/) | A TODO API written and instrumented using Python (Flask). |
+| `golang-wiki-tracing` | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Go | A simple wiki (Go) manually instrumented for tracing. |
+| `ruby-wiki-tracing` | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Ruby | A simple wiki (Ruby) manually instrumented for tracing. |
+| `java-webapp` | [libhoney-java](https://docs.honeycomb.io/sdk/java/) | A TODO API written and instrumented using Java Spring |
 
 ## Proposed Examples
 
