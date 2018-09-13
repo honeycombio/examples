@@ -20,6 +20,8 @@ you along. The current examples are:
 | `golang-wiki-tracing` | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Go | A simple wiki (Go) manually instrumented for tracing. |
 | `ruby-wiki-tracing` | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Ruby | A simple wiki (Ruby) manually instrumented for tracing. |
 | `java-webapp` | [libhoney-java](https://docs.honeycomb.io/sdk/java/) | A TODO API written and instrumented using Java Spring |
+| `kubernetes-envoy-tracing` | Using the [Honeycomb Opentracing Proxy](https://github.com/honeycombio/honeycomb-opentracing-proxy) to accept OpenTracing data | Two small services deployed to Kubernetes which communicate using [Envoy Proxy](https://www.envoyproxy.io/) |
+| `webhook-listener-triggers` | Executing a webhook as a result of a [Honeycomb Trigger](https://docs.honeycomb.io/working-with-data/triggers/) firing | A small Go application which listens for HTTP requests issued as a result of a trigger firing |
 
 ## Proposed Examples
 
