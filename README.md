@@ -13,6 +13,7 @@ you along. The current examples are:
 | --- | --- | --- |
 | `golang-gatekeeper` | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
 | `ruby-gatekeeper` | [Ruby Beeline](https://docs.honeycomb.io/getting-data-in/beelines/ruby-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| `python-gatekeeper` | [Python Beeline](https://docs.honeycomb.io/getting-data-in/beelines/python-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
 | `golang-webapp` | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
 | `honeytail-dockerd` | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | `honeytail-nginx` | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
