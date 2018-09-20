@@ -11,18 +11,18 @@ you along. The current examples are:
 
 | Directory | Meant to Teach | Description |
 | --- | --- | --- |
-| `golang-gatekeeper` | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `ruby-gatekeeper` | [Ruby Beeline](https://docs.honeycomb.io/getting-data-in/beelines/ruby-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `python-gatekeeper` | [Python Beeline](https://docs.honeycomb.io/getting-data-in/beelines/python-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `golang-webapp` | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
-| `honeytail-dockerd` | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
-| `honeytail-nginx` | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
-| `python-api` | [libhoney-py](https://docs.honeycomb.io/sdk/python/) | A TODO API written and instrumented using Python (Flask). |
-| `golang-wiki-tracing` | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Go | A simple wiki (Go) manually instrumented for tracing. |
-| `ruby-wiki-tracing` | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Ruby | A simple wiki (Ruby) manually instrumented for tracing. |
-| `java-webapp` | [libhoney-java](https://docs.honeycomb.io/sdk/java/) | A TODO API written and instrumented using Java Spring |
-| `kubernetes-envoy-tracing` | Using the [Honeycomb Opentracing Proxy](https://github.com/honeycombio/honeycomb-opentracing-proxy) to accept OpenTracing data | Two small services deployed to Kubernetes which communicate using [Envoy Proxy](https://www.envoyproxy.io/) |
-| `webhook-listener-triggers` | Executing a webhook as a result of a [Honeycomb Trigger](https://docs.honeycomb.io/working-with-data/triggers/) firing | A small Go application which listens for HTTP requests issued as a result of a trigger firing |
+| [`golang-gatekeeper`](golang-gatekeeper) | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| [`ruby-gatekeeper`](ruby-gatekeeper) | [Ruby Beeline](https://docs.honeycomb.io/getting-data-in/beelines/ruby-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| [`python-gatekeeper`](python-gatekeeper) | [Python Beeline](https://docs.honeycomb.io/getting-data-in/beelines/python-beeline/) | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| [`golang-webapp`](golang-webapp) | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
+| [`honeytail-dockerd`](honeytail-dockerd) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
+| [`honeytail-nginx`](honeytail-nginx) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
+| [`python-api`](python-api) | [libhoney-py](https://docs.honeycomb.io/sdk/python/) | A TODO API written and instrumented using Python (Flask). |
+| [`golang-wiki-tracing`](golang-wiki-tracing) | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Go | A simple wiki (Go) manually instrumented for tracing. |
+| [`ruby-wiki-tracing`](ruby-wiki-tracing) | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Ruby | A simple wiki (Ruby) manually instrumented for tracing. |
+| [`java-webapp`](java-webapp) | [libhoney-java](https://docs.honeycomb.io/sdk/java/) | A TODO API written and instrumented using Java Spring |
+| [`kubernetes-envoy-tracing`](kubernetes-envoy-tracing) | Using the [Honeycomb Opentracing Proxy](https://github.com/honeycombio/honeycomb-opentracing-proxy) to accept OpenTracing data | Two small services deployed to Kubernetes which communicate using [Envoy Proxy](https://www.envoyproxy.io/) |
+| [`webhook-listener-triggers`](webhook-listener-triggers) | Executing a webhook as a result of a [Honeycomb Trigger](https://docs.honeycomb.io/working-with-data/triggers/) firing | A small Go application which listens for HTTP requests issued as a result of a trigger firing |
 
 ## Proposed Examples
 
