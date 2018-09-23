@@ -20,18 +20,14 @@ module MethodHelpers
     end
 
     matching_team = $known_teams.select { |team| team.write_key == users_write_key }
-    if matching_team.empty?
-      raise AuthFailure.new("error": 'writekey does not match valid credentials')
-    end
+    raise AuthFailure.new("error": 'writekey does not match valid credentials') if matching_team.empty?
 
     matching_team[0]
   end
 
   def resolve_dataset(given_dataset)
     matching_dataset = $known_datasets.select { |dataset| dataset.name == given_dataset }
-    if matching_dataset.empty?
-      raise DatasetLookupFailure.new("error": 'failed to resolve dataset')
-    end
+    raise DatasetLookupFailure.new("error": 'failed to resolve dataset') if matching_dataset.empty?
 
     matching_dataset[0]
   end

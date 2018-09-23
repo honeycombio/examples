@@ -1,7 +1,5 @@
 # Log queries to STDOUT in development
-if Sinatra::Application.development?
-  ActiveRecord::Base.logger = Logger.new(STDOUT)
-end
+ActiveRecord::Base.logger = Logger.new(STDOUT) if Sinatra::Application.development?
 
 # Automatically load every file in APP_ROOT/app/models/*.rb, e.g.,
 #   autoload "Person", 'app/models/person.rb'

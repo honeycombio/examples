@@ -59,14 +59,6 @@ Style/GlobalVars:
     - 'app/helpers/method_helpers.rb'
     - 'server.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'Rakefile'
-    - 'app/helpers/method_helpers.rb'
-    - 'config/database.rb'
-
 # Offense count: 5
 Style/MixinUsage:
   Exclude:
