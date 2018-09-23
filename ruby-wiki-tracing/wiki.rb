@@ -16,11 +16,11 @@ class Page
   end
 
   def exist?
-    File.exist?(@filename)
+    File.exist? @filename
   end
 
   def save(body)
-    File.write(@filename, body)
+    File.write @filename, body
     true
   rescue StandardError => e
     false
@@ -49,7 +49,7 @@ class RequestTracer
     match = env['REQUEST_PATH'].match(VALID_PATH)
 
     @app.with_span(match ? match[1] : env['REQUEST_PATH']) do
-      @app.call(env)
+      @app.call env
     end
   end
 end
@@ -78,13 +78,13 @@ class App < Sinatra::Base
   # to the Edit handler if the page does not yet exist.
   get '/view/:title' do |title|
     @page = with_span('load_page', title: title) do
-      load_page(title)
+      load_page title
     end
 
     return redirect "/edit/#{title}" if @page.nil?
 
     with_span('render_template', template: 'view') do
-      erb(:view)
+      erb :view
     end
   end
 
@@ -93,13 +93,13 @@ class App < Sinatra::Base
   # wiki page.
   get '/edit/:title' do |title|
     @page = with_span('load_page', title: title) do
-      load_page(title)
+      load_page title
     end
 
     @page = Page.new(title) if @page.nil?
 
     with_span('render_template', template: 'edit') do
-      erb(:edit)
+      erb :edit
     end
   end
 
@@ -154,7 +154,7 @@ class App < Sinatra::Base
     # our manually-emitted events are timestamped with the time that the work
     # (the span's actual execution) really begun.
     event.timestamp = start
-    event.add(data)
+    event.add data
     event.send
 
     output
