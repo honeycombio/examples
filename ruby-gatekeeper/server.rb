@@ -63,7 +63,7 @@ post '/1/events/:dataset_name' do
   begin
     positive_integer?(sample_rate)
     int_sample_rate = sample_rate.to_i
-  rescue Bad_Sample_Rate => e
+  rescue BadSampleRate => e
     status 400
     return e.message.to_json
   end
@@ -98,10 +98,10 @@ post '/1/events/:dataset_name' do
 
   begin
     current_team = validate_write_key(write_key)
-  rescue Auth_Mishapen_Failure => e
+  rescue AuthMishapenFailure => e
     status 401
     return e.message.to_json
-  rescue Auth_Failure => e
+  rescue AuthFailure => e
     status 400
     return e.message.to_json
   end
@@ -118,7 +118,7 @@ post '/1/events/:dataset_name' do
 
   begin
     current_dataset = resolve_dataset(users_dataset)
-  rescue Dataset_Lookup_Failure => e
+  rescue DatasetLookupFailure => e
     status 400
     return e.message.to_json
   end
@@ -135,7 +135,7 @@ post '/1/events/:dataset_name' do
 
   begin
     chosen_partition = grab_partition(current_dataset)
-  rescue Dataset_Lookup_Failure => e
+  rescue DatasetLookupFailure => e
     status 405
     return e.message.to_json
   end
@@ -166,7 +166,7 @@ post '/1/events/:dataset_name' do
 
   begin
     get_schema(users_dataset)
-  rescue Schema_Lookup_Failure => e
+  rescue SchemaLookupFailure => e
     status 500
     return e.message.to_json
   end

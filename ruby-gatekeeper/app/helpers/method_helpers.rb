@@ -8,7 +8,7 @@ module MethodHelpers
     if !/\A\d+\z/.match(sample_rate)
       # sample rate string maps to a negative number or non-integer
       # false
-      raise Bad_Sample_Rate.new("error": 'bad sample rate provided')
+      raise BadSampleRate.new("error": 'bad sample rate provided')
     else
       # Is all good ..continue
       sample_rate
@@ -17,12 +17,12 @@ module MethodHelpers
 
   def validate_write_key(users_write_key)
     unless all_letters_or_digits(users_write_key)
-      raise Auth_Mishapen_Failure.new("error": 'writekey malformed - expect only letters and numbers')
+      raise AuthMishapenFailure.new("error": 'writekey malformed - expect only letters and numbers')
     end
 
     matching_team = $known_teams.select { |team| team.write_key == users_write_key }
     if matching_team.empty?
-      raise Auth_Failure.new("error": 'writekey does not match valid credentials')
+      raise AuthFailure.new("error": 'writekey does not match valid credentials')
     end
 
     matching_team[0]
@@ -31,7 +31,7 @@ module MethodHelpers
   def resolve_dataset(given_dataset)
     matching_dataset = $known_datasets.select { |dataset| dataset.name == given_dataset }
     if matching_dataset.empty?
-      raise Dataset_Lookup_Failure.new("error": 'failed to resolve dataset')
+      raise DatasetLookupFailure.new("error": 'failed to resolve dataset')
     end
 
     matching_dataset[0]
@@ -63,7 +63,7 @@ module MethodHelpers
 
     # let's just fail sometimes to pretend
     if rand(60) == 0
-      raise Schema_Lookup_Failure.new("error": 'failed to resolve schema')
+      raise SchemaLookupFailure.new("error": 'failed to resolve schema')
     end
   end
 

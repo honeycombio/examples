@@ -1,5 +1,5 @@
 module ErrorHelpers
-  class Bad_Sample_Rate < StandardError
+  class BadSampleRate < StandardError
     attr_reader :message
 
     def initialize(message)
@@ -8,7 +8,7 @@ module ErrorHelpers
     end
   end
 
-  class Auth_Failure < StandardError
+  class AuthFailure < StandardError
     attr_reader :message
 
     def initialize(message)
@@ -17,7 +17,7 @@ module ErrorHelpers
     end
   end
 
-  class Auth_Mishapen_Failure < StandardError
+  class AuthMishapenFailure < StandardError
     attr_reader :message
 
     def initialize(message)
@@ -26,7 +26,7 @@ module ErrorHelpers
     end
   end
 
-  class Dataset_Lookup_Failure < StandardError
+  class DatasetLookupFailure < StandardError
     attr_reader :message
 
     def initialize(message)
@@ -35,7 +35,7 @@ module ErrorHelpers
     end
   end
 
-  class Schema_Lookup_Failure < StandardError
+  class SchemaLookupFailure < StandardError
     attr_reader :message
 
     def initialize(message)

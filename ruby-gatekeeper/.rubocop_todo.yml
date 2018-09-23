@@ -23,11 +23,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 11
 
-# Offense count: 5
-Naming/ClassAndModuleCamelCase:
-  Exclude:
-    - 'app/helpers/error_helpers.rb'
-
 # Offense count: 3
 # Configuration parameters: Blacklist.
 # Blacklist: (?-mix:(^|\s)(EO[A-Z]{1}|END)(\s|$))
