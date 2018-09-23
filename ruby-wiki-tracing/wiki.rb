@@ -9,6 +9,7 @@ require 'libhoney'
 class Page
   attr_reader :filename, :title
   attr_accessor :body
+
   def initialize(title)
     @title = title
     @filename = "#{title}.txt"
@@ -37,6 +38,7 @@ end
 # begins with a top-level ("root") span indicating that the HTTP request has
 # begun.
 VALID_PATH = Regexp.new('^/(edit|save|view)/')
+
 class RequestTracer
   def initialize(app)
     @app = app
@@ -44,8 +46,9 @@ class RequestTracer
 
   def call(env)
     Thread.current[:request_id] = new_id
-    m = env['REQUEST_PATH'].match(VALID_PATH)
-    @app.with_span(m ? m[1] : env['REQUEST_PATH']) do
+    match = env['REQUEST_PATH'].match(VALID_PATH)
+
+    @app.with_span(match ? match[1] : env['REQUEST_PATH']) do
       @app.call(env)
     end
   end
@@ -62,7 +65,7 @@ class App < Sinatra::Base
   configure do
     set :libhoney, Libhoney::Client.new(
       writekey: ENV['HONEYCOMB_WRITEKEY'],
-      dataset: 'ruby-wiki-tracing-example'
+      dataset:  'ruby-wiki-tracing-example'
     )
   end
 
@@ -77,6 +80,7 @@ class App < Sinatra::Base
     @page = with_span('load_page', title: title) do
       load_page(title)
     end
+
     return redirect "/edit/#{title}" if @page.nil?
 
     with_span('render_template', template: 'view') do
@@ -91,6 +95,7 @@ class App < Sinatra::Base
     @page = with_span('load_page', title: title) do
       load_page(title)
     end
+
     @page = Page.new(title) if @page.nil?
 
     with_span('render_template', template: 'edit') do
@@ -101,9 +106,10 @@ class App < Sinatra::Base
   # Our "Save" handler simply persists a page to disk.
   post '/save/:page' do |title|
     saved = with_span('File.write', title: title, body_len: params['body'].size) do
-      p = Page.new(title)
-      p.save(params['body'])
+      page = Page.new(title)
+      page.save(params['body'])
     end
+
     return redirect "/view/#{title}" if saved
 
     'error'
@@ -128,6 +134,7 @@ class App < Sinatra::Base
       traceId: Thread.current[:request_id],
       serviceName: 'wiki'
     }
+
     # Capture the calling scope's span ID, then restore it at the end of the
     # method.
     parent_id = Thread.current[:span_id]
@@ -136,21 +143,21 @@ class App < Sinatra::Base
     # Set the current span ID before invoking the provided block, then capture
     # the return value to return after emitting the Honeycomb event.
     Thread.current[:span_id] = id
-    ret = yield
+    output = yield
 
     data[:durationMs] = (Time.new - start) * 1000
     data.merge!(metadata) if metadata
 
-    ev = settings.libhoney.event
+    event = settings.libhoney.event
     # NOTE: Don't forget to set the timestamp to `start` -- because spans are
     # emitted at the *end* of their execution, we want to be doubly sure that
     # our manually-emitted events are timestamped with the time that the work
     # (the span's actual execution) really begun.
-    ev.timestamp = start
-    ev.add(data)
-    ev.send
+    event.timestamp = start
+    event.add(data)
+    event.send
 
-    ret
+    output
   ensure
     Thread.current[:span_id] = parent_id
   end
@@ -159,12 +166,12 @@ class App < Sinatra::Base
 
   # Helper method for returning a Page object for easy rendering
   def load_page(title)
-    p = Page.new(title)
-    return nil unless p.exist?
+    page = Page.new(title)
+    return nil unless page.exist?
 
     with_span('File.read') do
-      p.body = File.read(p.filename)
-      p
+      page.body = File.read(page.filename)
+      page
     end
   end
 end
