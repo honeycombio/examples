@@ -55,8 +55,6 @@ post '/1/events/:dataset_name' do
   Rack::Honeycomb.add_field(env, HEADER_WRITE_KEY, write_key)
   Rack::Honeycomb.add_field(env, HEADER_TIMESTAMP, timestamp)
 
-  event_time = Time.parse(timestamp).to_i
-
   users_dataset = params[:dataset_name]
 
   sample_rate = '1' if sample_rate.nil?
@@ -83,7 +81,7 @@ post '/1/events/:dataset_name' do
 
   begin
     parsed_json = JSON.parse(request.body.read)
-  rescue StandardError => e
+  rescue StandardError
     status 400
     return { "error": 'unable to parse request headers' }.to_json
   end

@@ -12,11 +12,6 @@ Lint/HandleExceptions:
   Exclude:
     - 'Rakefile'
 
-# Offense count: 2
-Lint/UselessAssignment:
-  Exclude:
-    - 'server.rb'
-
 # Offense count: 3
 # Configuration parameters: CountComments, ExcludedMethods.
 # ExcludedMethods: refine
