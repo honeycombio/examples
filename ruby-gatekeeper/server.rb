@@ -46,14 +46,15 @@ CACHE_TIMEOUT      = 10
 
 post '/1/events/:dataset_name' do
   content_type :json
+
   # get writekey, timestamp, and sample rate from HTTP Headers
-  write_key = request.get_header(HEADER_WRITE_KEY)
-  timestamp = request.get_header(HEADER_TIMESTAMP)
+  write_key   = request.get_header(HEADER_WRITE_KEY)
+  timestamp   = request.get_header(HEADER_TIMESTAMP)
   sample_rate = request.get_header(HEADER_SAMPLE_RATE)
 
-  Rack::Honeycomb.add_field(env, HEADER_SAMPLE_RATE, sample_rate)
-  Rack::Honeycomb.add_field(env, HEADER_WRITE_KEY, write_key)
-  Rack::Honeycomb.add_field(env, HEADER_TIMESTAMP, timestamp)
+  Rack::Honeycomb.add_field env, HEADER_SAMPLE_RATE, sample_rate
+  Rack::Honeycomb.add_field env, HEADER_WRITE_KEY, write_key
+  Rack::Honeycomb.add_field env, HEADER_TIMESTAMP, timestamp
 
   users_dataset = params[:dataset_name]
 
@@ -74,7 +75,7 @@ post '/1/events/:dataset_name' do
   event.sample_rate = int_sample_rate
   event.write_key   = write_key
 
-  Rack::Honeycomb.add_field(env, 'sample_rate', int_sample_rate)
+  Rack::Honeycomb.add_field env, 'sample_rate', int_sample_rate
 
   # parse JSON body
   json_parse_timer_start = (Time.now.to_f * 1000).to_i
@@ -87,10 +88,10 @@ post '/1/events/:dataset_name' do
   end
 
   json_parse_timer_end = (Time.now.to_f * 1000).to_i
-  json_parse_timer_ms  = (json_parse_timer_start - json_parse_timer_end)
+  json_parse_timer_ms  = json_parse_timer_start - json_parse_timer_end
 
   event.data = parsed_json
-  Rack::Honeycomb.add_field(env, 'timer.parse_json_dur_ms', json_parse_timer_ms)
+  Rack::Honeycomb.add_field env, 'timer.parse_json_dur_ms', json_parse_timer_ms
 
   # authenticate the writekey
 
@@ -107,10 +108,10 @@ post '/1/events/:dataset_name' do
   end
 
   write_key_timer_end = (Time.now.to_f * 1000).to_i
-  write_key_timer_ms  = (write_key_timer_end - write_key_timer_start)
+  write_key_timer_ms  = write_key_timer_end - write_key_timer_start
 
-  Rack::Honeycomb.add_field(env, 'team', current_team)
-  Rack::Honeycomb.add_field(env, 'timer.validated_writekey_dur_ms', write_key_timer_ms)
+  Rack::Honeycomb.add_field env, 'team', current_team
+  Rack::Honeycomb.add_field env, 'timer.validated_writekey_dur_ms', write_key_timer_ms
 
   # take the writekey and the dataset name and get back a dataset object
 
@@ -124,13 +125,12 @@ post '/1/events/:dataset_name' do
   end
 
   dataset_timer_end = (Time.now.to_f * 1000).to_i
-  dataset_time_ms   = (dataset_timer_end - dataset_timer_start)
+  dataset_time_ms   = dataset_timer_end - dataset_timer_start
 
-  Rack::Honeycomb.add_field(env, 'dataset', current_dataset)
-  Rack::Honeycomb.add_field(env, 'timer.resolve_dataset_timer_dur_ms', dataset_time_ms)
+  Rack::Honeycomb.add_field env, 'dataset', current_dataset
+  Rack::Honeycomb.add_field env, 'timer.resolve_dataset_timer_dur_ms', dataset_time_ms
 
   # get partition info - stub about
-
   grab_partition_timer_start = (Time.now.to_f * 1000).to_i
 
   begin
@@ -141,11 +141,11 @@ post '/1/events/:dataset_name' do
   end
 
   grab_partition_timer_end = (Time.now.to_f * 1000).to_i
-  grab_partition_timer_ms  = (grab_partition_timer_start - grab_partition_timer_end)
+  grab_partition_timer_ms  = grab_partition_timer_start - grab_partition_timer_end
 
   event.chosen_partition = chosen_partition
-  Rack::Honeycomb.add_field(env, 'chosen_partition', chosen_partition)
-  Rack::Honeycomb.add_field(env, 'timer.grab_partition_dur_ms', grab_partition_timer_ms)
+  Rack::Honeycomb.add_field env, 'chosen_partition', chosen_partition
+  Rack::Honeycomb.add_field env, 'timer.grab_partition_dur_ms', grab_partition_timer_ms
 
   # check time - use or set to now if broken
   event_time_delta = 0
@@ -156,8 +156,8 @@ post '/1/events/:dataset_name' do
     event_time_delta = (Time.now.to_i - event.timestamp.to_i)
   end
 
-  Rack::Honeycomb.add_field(env, 'event_time', event.timestamp)
-  Rack::Honeycomb.add_field(env, 'timer.event_time_delta_sec', event_time_delta)
+  Rack::Honeycomb.add_field env, 'event_time', event.timestamp
+  Rack::Honeycomb.add_field env, 'timer.event_time_delta_sec', event_time_delta
 
   # verify schema - stub out
   $last_cache_time = 0
@@ -172,16 +172,16 @@ post '/1/events/:dataset_name' do
   end
 
   get_schema_timer_end = (Time.now.to_f * 1000).to_i
-  get_schema_timer_ms  = (get_schema_timer_end - get_schema_timer_start)
+  get_schema_timer_ms  = get_schema_timer_end - get_schema_timer_start
 
-  Rack::Honeycomb.add_field(env, 'timer.get_schema', get_schema_timer_ms)
+  Rack::Honeycomb.add_field env, 'timer.get_schema', get_schema_timer_ms
 
   # Hand off to external service (aka write to local disk)
-  write_event(event)
+  write_event event
 end
 
 get '/x/alive' do
-  Rack::Honeycomb.add_field(env, 'alive', true)
+  Rack::Honeycomb.add_field env, 'alive', true
   'Sending stuff via Beeline'
 end
 
