@@ -22,7 +22,7 @@ class Page
   def save(body)
     File.write @filename, body
     true
-  rescue StandardError => e
+  rescue StandardError
     false
   end
 end
