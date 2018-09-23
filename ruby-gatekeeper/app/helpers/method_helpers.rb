@@ -23,7 +23,7 @@ module MethodHelpers
     matching_team = $known_teams.select { |team| team.write_key == users_write_key }
     if matching_team.empty?
       raise Auth_Failure.new("error": 'writekey does not match valid credentials')
-      end
+    end
 
     matching_team[0]
   end
