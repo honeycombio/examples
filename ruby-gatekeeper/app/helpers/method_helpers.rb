@@ -5,14 +5,13 @@ module MethodHelpers
 
   # returns true if the string contents map to a positive, non float, integer
   def positive_integer?(sample_rate)
-    if !/\A\d+\z/.match(sample_rate)
-      # sample rate string maps to a negative number or non-integer
-      # false
+    unless /\A\d+\z/ =~ sample_rate
+      # sample rate string maps to a negative number or non-integer false
       raise BadSampleRate.new("error": 'bad sample rate provided')
-    else
-      # Is all good ..continue
-      sample_rate
     end
+
+    # Is all good ...continue
+    sample_rate
   end
 
   def validate_write_key(users_write_key)
@@ -40,11 +39,9 @@ module MethodHelpers
   def grab_partition(given_dataset)
     available_partitions = given_dataset.partition_list
 
-    if available_partitions.length <= 0
-      raise 'no partitions found'
-    else
-      return available_partitions.sample
-    end
+    raise 'no partitions found' if available_partitions.length <= 0
+
+    available_partitions.sample
   end
 
   def get_schema(_given_dataset)
@@ -62,9 +59,9 @@ module MethodHelpers
     Rack::Honeycomb.add_field(env, 'hit_schema_cache', hit_cache)
 
     # let's just fail sometimes to pretend
-    if rand(60) == 0
-      raise SchemaLookupFailure.new("error": 'failed to resolve schema')
-    end
+    return unless rand(60).zero?
+
+    raise SchemaLookupFailure.new("error": 'failed to resolve schema')
   end
 
   def write_event(event)

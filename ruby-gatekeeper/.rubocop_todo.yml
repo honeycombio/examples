@@ -59,12 +59,6 @@ Style/GlobalVars:
     - 'app/helpers/method_helpers.rb'
     - 'server.rb'
 
-# Offense count: 3
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'app/helpers/method_helpers.rb'
-
 # Offense count: 8
 # Cop supports --auto-correct.
 Style/IfUnlessModifier:
