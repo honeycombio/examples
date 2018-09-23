@@ -48,10 +48,12 @@ module MethodHelpers
     if (Time.now - $last_cache_time) > CACHE_TIMEOUT
       # we fall through the cache every 10 seconds
       hit_cache = false
+
       # pretend to hit a slow database that takes 30-50ms
       sleep(rand(30...51))
       $last_cache_time = Time.now
     end
+
     Rack::Honeycomb.add_field(env, 'hit_schema_cache', hit_cache)
 
     # let's just fail sometimes to pretend
