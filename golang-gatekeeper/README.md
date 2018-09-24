@@ -2,13 +2,18 @@
 
 ## Overview
 
-This is an example app used to explore Honeycomb.  It implements the /1/events
-endpoint of our public API: see the docs for that on our [main documentation
-site](https://docs.honeycomb.io/api/events/). It is intentionally a little
-bigger than the normal example app used to demonstrate a library because we
-wanted to show a bit about how instrumentation moves through a larger app and
-address concepts like context propagation, adding complex objects to
-instrumentation, and how timers fit in larger blocks.
+This is an example application modeled after Honeycomb's API server (codenamed
+Gatekeeper).
+To see real data output by an app like this, and to learn about a real issue
+surfaced by exploring production data with Honeycomb, check out our
+[Gatekeeper Tour Guide](https://docs.honeycomb.io/gatekeeper-tour/).
+
+This app implements the [/1/events/ endpoint of our public API](https://docs.honeycomb.io/api/events/)
+This app was written in order to show how instrumentation moves through a
+more mature application - specifically addressing concepts like:
+- Context propagation
+- Adding complex objects to instrumentation
+- How timers fit in larger blocks of logic
 
 ## Download or Build
 
@@ -19,7 +24,7 @@ Build it with `cd golang-gatekeeper; go get ./...; go build -o gatekeeper`
 ## Run the server
 
 Before you launch the server, set an environment variable `HONEYCOMB_WRITEKEY`
-to your team api key, available from [your account
+to your team API key, available from [your account
 page](https://ui.honeycomb.io/account). This will configure the server to send
 instrumentation events to Honeycomb in a dataset called `gatekeeper`
 
