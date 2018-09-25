@@ -2,7 +2,18 @@
 
 ## Overview
 
-This is an example app used to explore Honeycomb. It implements the /1/events endpoint of our public API: see the docs for that on our [main documentation site](https://docs.honeycomb.io/api/events/).
+This is an example application modeled after Honeycomb's API server (codenamed
+Gatekeeper).
+To see real data output by an app like this, and to learn about a real issue
+surfaced by exploring production data with Honeycomb, check out our
+[Gatekeeper Tour Guide](https://docs.honeycomb.io/gatekeeper-tour/).
+
+This app implements the [/1/events/ endpoint of our public API](https://docs.honeycomb.io/api/events/)
+This app was written in order to show how instrumentation moves through a
+more mature application - specifically addressing concepts like:
+- Context propagation
+- Adding complex objects to instrumentation
+- How timers fit in larger blocks of logic
 
 ## Download or Build
 
