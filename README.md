@@ -11,10 +11,10 @@ you along. The current examples are:
 
 | Directory | Meant to Teach | Description |
 | --- | --- | --- |
-| [`golang-gatekeeper`](golang-gatekeeper) | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | An API server paired with the [Gatekeeper Tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| [`golang-gatekeeper`](golang-gatekeeper) | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | An API server paired with the [Gatekeeper Tour](https://docs.honeycomb.io/gatekeeper-tour/) |
 | [`golang-ratelimiting-proxy`](golang-ratelimiting-proxy) | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) | A rate limiting, tarpitting proxy, intended to be put in front of a web server. |
-| [`ruby-gatekeeper`](ruby-gatekeeper) | [Ruby Beeline](https://docs.honeycomb.io/getting-data-in/beelines/ruby-beeline/) | An API server paired with the [Gatekeeper Tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| [`python-gatekeeper`](python-gatekeeper) | [Python Beeline](https://docs.honeycomb.io/getting-data-in/beelines/python-beeline/) | An API server paired with the [Gatekeeper Tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
+| [`ruby-gatekeeper`](ruby-gatekeeper) | [Ruby Beeline](https://docs.honeycomb.io/getting-data-in/beelines/ruby-beeline/) | An API server paired with the [Gatekeeper Tour](https://docs.honeycomb.io/gatekeeper-tour/) |
+| [`python-gatekeeper`](python-gatekeeper) | [Python Beeline](https://docs.honeycomb.io/getting-data-in/beelines/python-beeline/) | An API server paired with the [Gatekeeper Tour](https://docs.honeycomb.io/gatekeeper-tour/) |
 | [`golang-webapp`](golang-webapp) | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
 | [`honeytail-dockerd`](honeytail-dockerd) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | [`honeytail-nginx`](honeytail-nginx) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
