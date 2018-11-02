@@ -67,7 +67,7 @@ working well.
 
 ## API
 
-This application exposes s basic REST API for todos on port 8080 (see the
+This application exposes basic REST API for todos on port 8080 (see the
 [application.properties](src/main/resources/application.properties) if you would like to override this):
 
 ```sh
