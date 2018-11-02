@@ -30,7 +30,7 @@ This application requires Java 8.
 
 Run the application using the maven wrapper as follows:
 ```sh
-./mvnw install && ./mvnw spring-boot:run -pl io.honeycomb.libhoney:libhoney-java-example-webapp
+./mvnw install && ./mvnw spring-boot:run -pl io.honeycomb.examples:libhoney-java-example-webapp
 ```
 Alternatively, you can build an executable jar in the module target directory using:
  ```sh
