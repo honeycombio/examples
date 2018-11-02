@@ -1,9 +1,9 @@
 # Set up gems listed in the Gemfile.
 # See: http://gembundler.com/bundler_setup.html
 #      http://stackoverflow.com/questions/7243486/why-do-you-need-require-bundler-setup
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
-require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
+require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
 
 # Require gems we care about
 require 'rubygems'
@@ -16,13 +16,13 @@ require 'active_record'
 require 'logger'
 
 require 'sinatra'
-require "sinatra/reloader" if development?
+require 'sinatra/reloader' if development?
 
 require 'erb'
 require 'pry-byebug'
 
 # Some helper constants for path-centric logic
-APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
+APP_ROOT = Pathname.new(File.expand_path('..', __dir__))
 
 APP_NAME = APP_ROOT.basename.to_s
 
@@ -35,7 +35,7 @@ configure do
   set :session_secret, ENV['SESSION_SECRET'] || 'this is a secret shhhhh'
 
   # Set the views to
-  set :views, File.join(Sinatra::Application.root, "app", "views")
+  set :views, File.join(Sinatra::Application.root, 'app', 'views')
 end
 
 # Set up the controllers and helpers

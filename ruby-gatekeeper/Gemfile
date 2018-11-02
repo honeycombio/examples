@@ -4,20 +4,20 @@ source 'https://rubygems.org'
 gem 'sinatra', '~> 1.0'
 gem 'sinatra-contrib'
 
-gem 'activesupport', '~>5.1.2'
 gem 'activerecord', '~>5.1.2'
+gem 'activesupport', '~>5.1.2'
 
 gem 'rake'
 
-gem 'shotgun', '~>0.9.1'
 gem 'honeycomb-beeline'
+gem 'shotgun', '~>0.9.1'
 
 gem 'httparty'
 
 group :test do
-  gem 'shoulda-matchers'
   gem 'rack-test'
   gem 'rspec', '~>3.0'
+  gem 'shoulda-matchers'
 end
 
 group :test, :development do

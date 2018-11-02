@@ -36,8 +36,7 @@ Before you launch the server, set the following environment variables:
 
 * `HONEYCOMB_WRITEKEY` - specifies the API key (aka "write key") available from [your account page](https://ui.honeycomb.io/account)
 * `HONEYCOMB_DATASET` - specify the dataset to where instrumentation events will be sent
-* `HONEYCOMB_SERVICE` - specify the name of your app (defaults to the dataset
-  name)
+* `HONEYCOMB_SERVICE` - specify the name of your app (defaults to the dataset name)
 
 Running the `apiary` server will start it listening on port 4567. Send HTTP POSTs to the `/1/events/<dataset-name>` endpoint with an `X-HONEYCOMB-TEAM` header containing one of the hardcoded api keys and with a body containing a JSON object. The server will process the POST and if everything looks good, eventually write it to `/tmp/api#.log`, where # is a partition number (between 1-5).
 
@@ -51,11 +50,13 @@ example of sending an event to the apiary server:
 If you want to just see the instrumentation events on the command line instead of sending them to Honeycomb, add `(debug: true)` to the `Honeycomb.init` function in `server.rb`. By calling `Honeycomb.init(debug: true)`(and after restarting your server), the instrumentation events will the Beeline will not send any events to Honeycomb, but will instead print them to your app's standard error.
 
 Hard-coded values for `X-Honeycomb-Team` (required header):
+
 * abcd123EFGH
 * ijkl456MNOP
 * qrst789UVWX
 
 Hard-coded values for dataset names (required in the URL):
+
 * wade
 * james
 * helen
@@ -72,7 +73,7 @@ Any values other than those listed above will cause a HTTP status 401 (for api k
 Example output instrumentation events you'll see in Honeycomb:
 
 ```json
-{  
+{
    "meta.beeline_version":"0.4.0",
    "meta.local_hostname":"your.localhost_name",
    "service_name":"apiary",
@@ -94,16 +95,16 @@ Example output instrumentation events you'll see in Honeycomb:
    "app.HTTP_X_HONEYCOMB_EVENT_TIME":"2018-07-03T20:59:08.832016791Z",
    "app.sample_rate":2,
    "app.timer.parse_json_dur_ms":0,
-   "app.team":{  
+   "app.team":{
       "id":1,
       "name":"RPO",
       "write_key":"abcd123EFGH"
    },
    "app.timer.validated_writekey_dur_ms":0,
-   "app.dataset":{  
+   "app.dataset":{
       "id":2,
       "name":"james",
-      "partition_list":[  
+      "partition_list":[
          1,
          2,
          4
