@@ -1,5 +1,6 @@
 package io.honeycomb.libhoney.example.webapp;
 
+import io.honeycomb.libhoney.example.webapp.instrumentation.HoneycombContext;
 import io.honeycomb.libhoney.example.webapp.persistence.Todo;
 import io.honeycomb.libhoney.example.webapp.persistence.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +21,42 @@ import java.util.function.Supplier;
 public class TodosService {
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private HoneycombContext honeycombContext;
 
     public List<Todo> readTodos() {
-        return todoRepository.findAll();
+        return timeCall(() -> todoRepository.findAll(), "timers.db.select_all_todos");
     }
 
     public void deleteTodo(final Long id) {
-        todoRepository.delete(id);
+        timeCall(() -> todoRepository.delete(id), "timers.db.delete_todo");
     }
 
     public void updateTodo(final Long id, final Todo update) {
-        final Todo todo = todoRepository.getOne(id);
-        todo.setCompleted(update.getCompleted());
-        todo.setDescription(update.getDescription());
-        todo.setDue(update.getDue());
-        todoRepository.save(todo);
+        timeCall(() -> {
+            final Todo todo = todoRepository.getOne(id);
+            todo.setCompleted(update.getCompleted());
+            todo.setDescription(update.getDescription());
+            todo.setDue(update.getDue());
+            todoRepository.save(todo);
+        }, "timers.db.update_todo");
     }
 
     public void createTodo(final Todo todo) {
-        todoRepository.save(todo);
+        timeCall(() -> todoRepository.save(todo), "timers.db.insert_todo");
+    }
+
+    private  <T> T timeCall(final Supplier<T> call, final String callName) {
+        final long startTime = System.currentTimeMillis();
+        try {
+            return call.get();
+        } finally {
+            final long endTime = System.currentTimeMillis();
+            honeycombContext.getEvent().addField(callName, endTime - startTime);
+        }
+    }
+
+    private void timeCall(final Runnable call, final String callName) {
+        timeCall(() -> { call.run(); return null; }, callName);
     }
 }
