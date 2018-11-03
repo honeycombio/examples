@@ -1,5 +1,7 @@
 # libhoney-java-example-webapp
 
+[![View instrumentation diff](https://img.shields.io/badge/compare-instrumentation%20diff-brightgreen.svg)](https://github.com/honeycombio/examples/commit/8a308d54864307e2b1d96c5492e66210c72495f0)
+
 This application demonstrates a simple Honeycomb instrumentation of 
 a [Spring Boot](https://projects.spring.io/spring-boot/) application. It is CRUD interface for managing a TODOs list.
 The backend is an in-memory [H2 database](http://www.h2database.com/html/main.html).
@@ -7,7 +9,7 @@ The backend is an in-memory [H2 database](http://www.h2database.com/html/main.ht
 Events are created per-HTTP-request (following the Honeycomb one event per unit of work model) using a Spring 
 [Handler 
 Interceptor](/src/main/java/io/honeycomb/libhoney/example/webapp/instrumentation/HoneycombHandlerInterceptor.java) to
-capture request/response data and use the libhoney-java SDK to send events to HoneyComb. A 
+capture request/response data and use the libhoney-java SDK to send events to Honeycomb. A
 [request context](src/main/java/io/honeycomb/libhoney/example/webapp/instrumentation/HoneycombContext.java) is
 propagated throughout the app (using Spring's 
 [request scope](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/annotation/RequestScope.html)) 
@@ -21,7 +23,7 @@ given by Spring).
 
 ### Required configuration
 
-Set your HoneyComb write key and the dataset you want to report to by using the 
+Set your Honeycomb write key and the dataset you want to report to by using the
 [application.properties](src/main/resources/application.properties) file. 
 
 This application requires Java 8.
@@ -59,13 +61,13 @@ app.region: us-west-1
 ### Response Observer
 
 A simple [Response Observer](src/main/java/io/honeycomb/libhoney/example/webapp/LoggingResponseObserver.java) is 
-registered with the HoneyComb SDK. This logs into the console a response to each HoneyComb event submitted to the SDK. 
-A more mature application might monitor/alert on these responses in order to ensure that the HoneyComb integration is 
+registered with the Honeycomb SDK. This logs into the console a response to each Honeycomb event submitted to the SDK.
+A more mature application might monitor/alert on these responses in order to ensure that the Honeycomb integration is
 working well.
 
 ## API
 
-A basic REST API for todos is exposed on port 8080 (see the 
+This application exposes basic REST API for todos on port 8080 (see the
 [application.properties](src/main/resources/application.properties) if you would like to override this):
 
 ```sh
@@ -108,7 +110,7 @@ $ curl localhost:8080/todos/
 
 ## Event fields
 
-The following fields will be sent to HoneyComb:
+The following fields are sent to Honeycomb:
 
 | **Name** | **Description** | **Example Value** |
 | --- | --- | --- |
