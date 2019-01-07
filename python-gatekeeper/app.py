@@ -1,11 +1,9 @@
 import json
-import beeline
 import datetime
 import dateutil.parser
 import logging
 import os
 
-from beeline.middleware.flask import HoneyMiddleware
 from flask import Flask, request, render_template
 from helpers import *
 
@@ -29,12 +27,7 @@ if not honeycomb_write_key:
     log.error(
         "Got empty writekey from the environment. Please set HONEYCOMB_WRITEKEY")
 
-beeline.init(writekey=honeycomb_write_key,
-             dataset='apiary-python', service_name='sample_app')
-
 app = Flask(__name__)
-HoneyMiddleware(app, db_events=False)
-
 
 @app.route('/')
 def home():
@@ -54,7 +47,6 @@ def handle_event(dataset_name):
     try:
         data = json.loads(request.data)
         event['Data'] = data
-        beeline.add_field("event_columns", len(event['Data']))
     except (TypeError, json.decoder.JSONDecodeError):
         return JSON_FAILURE_RESPONSE
 
@@ -67,7 +59,6 @@ def handle_event(dataset_name):
     # authenticate writekey or return 401
     try:
         team = validate_write_key(event['WriteKey'])
-        beeline.add_field("team", vars(team))
     except AuthFailure:
         return AUTH_FAILURE_RESPONSE
     except AuthMishapenFailure:
@@ -76,7 +67,6 @@ def handle_event(dataset_name):
     # take the writekey and the dataset name and get back a dataset object
     try:
         dataset = resolve_dataset(dataset_name)
-        beeline.add_field("dataset", vars(dataset))
     except DatasetLookupFailure:
         return DATASET_LOOKUP_FAILURE_RESPONSE
 
@@ -84,7 +74,6 @@ def handle_event(dataset_name):
     try:
         partition = get_partition(dataset)
         event['ChosenPartition'] = partition
-        beeline.add_field("chosen_partition", partition)
     except DatasetLookupFailure:
         return DATASET_LOOKUP_FAILURE_RESPONSE
 
@@ -98,9 +87,6 @@ def handle_event(dataset_name):
         event_timestamp = dateutil.parser.parse(event['Timestamp'])
         event_time_delta = datetime.datetime.now(
             datetime.timezone.utc) - event_timestamp
-        beeline.add_field("event_time_delta_sec",
-                          event_time_delta.total_seconds())
-    beeline.add_field("event_time", event['Timestamp'])
 
     # verify schema
     try:

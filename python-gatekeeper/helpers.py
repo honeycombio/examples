@@ -1,4 +1,3 @@
-import beeline
 import json
 import random
 import re
@@ -77,7 +76,6 @@ def timer(wrapped_function):
 
         time_end = time.time()
         event_field_name = "timer.%s_dur_ms" % wrapped_function.__name__
-        beeline.add_field(event_field_name, (time_end - time_start) * 1000)
         return result
 
     return wrapper
@@ -91,13 +89,10 @@ def get_headers(request, event):
     """
     # pull raw values from headers
     write_key = request.headers.get(HEADER_WRITE_KEY)
-    beeline.add_field(HEADER_WRITE_KEY, write_key)
 
     timestamp = request.headers.get(HEADER_TIMESTAMP)
-    beeline.add_field(HEADER_TIMESTAMP, timestamp)
 
     sample_rate = request.headers.get(HEADER_SAMPLE_RATE)
-    beeline.add_field(HEADER_SAMPLE_RATE, sample_rate)
 
     # ensure correct types
     # writekeys are strings, so no conversion needed (we will validate them later)
@@ -107,12 +102,7 @@ def get_headers(request, event):
     # if not in the right format or if missing, we should note that and continue
     if timestamp:
         match = RFC3999_REGEX.match(timestamp)
-        if not match:
-            beeline.add_field("error_time_parsing",
-                              "timestamp not in RFC3999 format")
         event['Timestamp'] = timestamp
-    else:
-        beeline.add_field("error_time_parsing", "no timestamp for event")
 
     # sample rate should be a positive int, defaults to 1 if empty
     if sample_rate == "":
@@ -120,7 +110,6 @@ def get_headers(request, event):
     try:
         parsed_sample_rate = int(sample_rate)
         event['SampleRate'] = parsed_sample_rate
-        beeline.add_field("sample_rate", parsed_sample_rate)
     except ValueError:
         raise ParseFailure
 
@@ -185,7 +174,6 @@ def get_schema(dataset):
         # pretend to hit a slow database that takes 30-50ms
         time.sleep(random.uniform(.03, .05))
         last_cache_time = time.time()
-    beeline.add_field("hitSchemaCache", hit_cache)
     # let's just fail sometimes to pretend
     if random.randint(0, 61) == 0:
         raise SchemaLookupFailure
