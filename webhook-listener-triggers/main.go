@@ -53,6 +53,7 @@ type Notification struct {
 	SharedSecret string `json:"shared_secret"`
 	// TriggerName is the name of this trigger, as configured in the UI
 	TriggerName string `json:"name"`
+        TriggerID string   `json:"id"`
 	// Status will be TRIGGERED or OK
 	Status          string          `json:"status"`
 	Summary         string          `json:"summary"`
@@ -62,7 +63,7 @@ type Notification struct {
 	ResultURL       string          `json:"result_url"` // permalink to the trigger results
 	ResultGroups    []TriggerResult `json:"result_groups"`
 	GroupsTriggered []TriggerResult `json:"result_groups_triggered"`
-
+	TriggerURL      string          `json:"trigger_url"`
 	// Timestamp does not come with the notification but I want it to be
 	// serialized in the output here so we can see when things came in
 	Timestamp time.Time `json:"timestamp"`
