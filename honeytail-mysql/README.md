@@ -30,7 +30,7 @@ explore next when particular queries are slow, or simply odd.
 ![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/mysql-bubbleup-select.png)
 ![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/mysql-bubbleup-histos.png)
 
-**Note:** The usage of `--drop_field=query` as a flag for Honeytail. This will
+Note the usage of `--drop_field=query` as a flag for Honeytail. This will
 ensure that the `query` field (which contains the raw, non-normalized query) is
 not sent, which might otherwise expose sensitive details from the queries your
 apps are running. For most insights you need to divine, `normalized_query`
