@@ -36,9 +36,11 @@ services:
     volumes:
     - logs:/var/log
     - honeytail-tmp:/tmp # Used to maintain state of what's already been processed
-    command: --debug --parser=mysql --dataset=examples.honeytail-mysql --writekey=$HONEYCOMB_WRITEKEY --file=/var/log/slowquery.log --drop_field=query
+
+    command: --debug --add_field=hostname=shard0 --parser=mysql --dataset=examples.honeytail-mysql --writekey=$HONEYCOMB_WRITEKEY --file=/var/log/slowquery.log --drop_field=query
     environment:
       HONEYCOMB_WRITEKEY:
+
     restart: always
 
 volumes:
