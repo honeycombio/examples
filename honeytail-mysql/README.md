@@ -4,7 +4,9 @@ This example demonstrates using [Honeytail to ingest the MySQL slow query
 log](https://docs.honeycomb.io/getting-data-in/integrations/databases/mysql/logs/).
 
 The `HONEYCOMB_WRITEKEY` environment variable must be set to your Honeycomb
-write key. To run the example, just `docker-compose up`.
+write key. To run the example, just `docker-compose up`. There will likely be a
+few error messages as downstream containers restart because MySQL takes a second
+to start up fully.
 
 ## Architecture
 
