@@ -18,7 +18,7 @@ you along. The current examples are:
 | [`golang-webapp`](golang-webapp) | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
 | [`honeytail-dockerd`](honeytail-dockerd) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | [`honeytail-nginx`](honeytail-nginx) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
-| [`honeytail-mysql`](honeytail-mysql) | Honeytail(https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using Honeytail's `mysql` parser to ingest MySQL slow query logs |
+| [`honeytail-mysql`](honeytail-mysql) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using Honeytail's `mysql` parser to ingest MySQL slow query logs |
 | [`python-api`](python-api) | [libhoney-py](https://docs.honeycomb.io/sdk/python/) | A TODO API written and instrumented using Python (Flask). |
 | [`golang-wiki-tracing`](golang-wiki-tracing) | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Go | A simple wiki (Go) manually instrumented for tracing. |
 | [`ruby-wiki-tracing`](ruby-wiki-tracing) | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Ruby | A simple wiki (Ruby) manually instrumented for tracing. |
