@@ -15,7 +15,7 @@ namespace dotnet_core_webapi_sample
     {
       _next = next;
       _client = new HttpClient();
-      _client.DefaultRequestHeaders.Add("X-Honeycomb-Team","<WRITEKEY>");
+      _client.DefaultRequestHeaders.Add("X-Honeycomb-Team","6b7919e9cb69152d49b8bd3aa1fffbc4");
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -26,13 +26,14 @@ namespace dotnet_core_webapi_sample
       fields.Add("request.path", context.Request.Path.Value);
       fields.Add("request.method", context.Request.Method);
       fields.Add("request.content_length", context.Request.ContentLength);
+      fields.Add("request.host", context.Request.Host.ToString());
       stopwatch.Start();
       await _next.Invoke(context);
       stopwatch.Stop();
       fields.Add("duration_ms", stopwatch.ElapsedMilliseconds);
-      fields.Add("response.http_status", context.Response.StatusCode);
+      fields.Add("response.status_code", context.Response.StatusCode);
       fields.Add("response.content_length", context.Response.ContentLength);
-      var dataset = "<DATASET_NAME>";
+      var dataset = "dotnet-core-webapi";
       // TODO: Think about sending this out of band from the web request
       await _client.PostAsJsonAsync($"https://api.honeycomb.io/1/events/{dataset}", fields);
     }

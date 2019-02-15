@@ -101,4 +101,4 @@ $ docker-compose build && docker-compose up -d
 
 ## Example Queries
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/python-api-q1.png)
+![](../_internal/python-api-q1.png)
