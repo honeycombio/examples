@@ -10,11 +10,20 @@ namespace dotnet_core_webapi_sample.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private HoneycombContext Context { get; }
+
+        public ValuesController(HoneycombContext context)
+        {
+          Context = context;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var values = new string[] { "value1", "value2" };
+            Context.Fields.Add("app.values_count", values.Length);
+            return values;
         }
 
         // GET api/values/5
