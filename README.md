@@ -11,6 +11,7 @@ you along. The current examples are:
 
 | Directory | Meant to Teach | Description |
 | --- | --- | --- |
+| [`buildevents`](https://github.com/honeycombio/buildevents) | Manual tracing | A small binary to help create traces out of Travis-CI builds, visualizing each step and command as spans within the trace. |
 | [`dotnet-core-webapi`](dotnet-core-webapi) | Custom instrumentation with [.NET](https://docs.honeycomb.io/instrumenting-your-application/dotnet/) | A barebones web API with a `HoneycombMiddleware.cs` for capturing HTTP metadata. |
 | [`golang-gatekeeper`](golang-gatekeeper) | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) and custom instrumentation | An API server paired with the [Gatekeeper Tour](https://docs.honeycomb.io/gatekeeper-tour/) |
 | [`golang-ratelimiting-proxy`](golang-ratelimiting-proxy) | [Go Beeline](https://docs.honeycomb.io/getting-data-in/beelines/go-beeline/) and cross-service tracing | A rate limiting, tarpitting proxy, intended to be put in front of a web server. |
