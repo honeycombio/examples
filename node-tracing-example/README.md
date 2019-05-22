@@ -12,11 +12,11 @@ It contains examples of:
 - In-app tracing (across functions within the same service)
 - Distributed tracing (across services)
 
-It requires Node 8+ and has intentionally included the `node_modules` directory in hopes of simplifying dependencies.
+And requires Node 8+.
 
 ## Usage:
 
-Find your Honeycomb write key at https://ui.honeycomb.io/account, then:
+Find your Honeycomb API key at https://ui.honeycomb.io/account, then:
 
 ## Running the main application
 

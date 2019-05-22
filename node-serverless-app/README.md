@@ -10,11 +10,9 @@ It contains examples of:
 - Continuing a propagated trace (if applicable), e.g. if the client initiated a trace via another Honeycomb Beeline
 - Error handling with a trace
 
-We've intentionally included the `node_modules` directory in hopes of simplifying dependencies.
-
 ## Usage:
 
-Find your Honeycomb write key at https://ui.honeycomb.io/account, then make it available to your Lambda function.
+Find your Honeycomb API key at https://ui.honeycomb.io/account, then make it available to your Lambda function.
 
 After deploying your Lambda function, you may curl it with a payload:
 
