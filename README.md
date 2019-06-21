@@ -20,7 +20,7 @@ you along. The current examples are:
 | `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing.                                                            |
 | `ruby-wiki-tracing`   | A simple wiki (Ruby) manually instrumented for tracing.                                                          |
 | `java-webapp`         | A TODO API written and instrumented using Java Spring                                                            |
-| `java-beeline`        | A simple web app written instrumented for tracing with the Java Beeline for SpringBoot                           |
+| `java-beeline`        | A simple web app instrumented for tracing with the Java Beeline for SpringBoot                                   |
 
 ## Proposed Examples
 
