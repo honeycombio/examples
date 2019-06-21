@@ -20,6 +20,7 @@ you along. The current examples are:
 | [`honeytail-dockerd`](honeytail-dockerd) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | [`honeytail-mysql`](honeytail-mysql) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using Honeytail's `mysql` parser to ingest MySQL slow query logs |
 | [`honeytail-nginx`](honeytail-nginx) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
+| [`java-beeline`](java-beeline) | [beeline-java](https://docs.honeycomb.io/getting-data-in/java/beeline/)| A simple web app instrumented for tracing with the Java Beeline for SpringBoot |
 | [`java-webapp`](java-webapp) | [libhoney-java](https://docs.honeycomb.io/sdk/java/) | A TODO API written and instrumented using Java Spring |
 | [`kubernetes-envoy-tracing`](kubernetes-envoy-tracing) | Using the [Honeycomb Opentracing Proxy](https://github.com/honeycombio/honeycomb-opentracing-proxy) to accept OpenTracing data | Two small services deployed to Kubernetes which communicate using [Envoy Proxy](https://www.envoyproxy.io/) |
 | [`node-tracing-example`](node-tracing-example) | [Node Beeline](https://docs.honeycomb.io/getting-data-in/javascript/beeline-nodejs/) | A simple webapp showing intra-service and cross-service tracing. |
@@ -30,18 +31,19 @@ you along. The current examples are:
 | [`ruby-wiki-tracing`](ruby-wiki-tracing) | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Ruby | A simple wiki (Ruby) manually instrumented for tracing. |
 | [`webhook-listener-triggers`](webhook-listener-triggers) | Executing a webhook as a result of a [Honeycomb Trigger](https://docs.honeycomb.io/working-with-data/triggers/) firing | A small Go application which listens for HTTP requests issued as a result of a trigger firing |
 
+
 ## Proposed Examples
 
 The following have been proposed but not implemented:
 
-| Directory | Description |
-| --- | --- |
-| `javascript-api` | A TODO API written and instrumented using JavaScript. |
-| `sidekiq` | Observing behavior of the background job runner Sidekiq. |
-| `honeytail-apache` | Ingesting Apache access logs using Honeytail. |
-| `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail. |
-| `logstash` | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
-| `fluentd` | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb. |
+| Directory           | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| `javascript-api`    | A TODO API written and instrumented using JavaScript.                   |
+| `sidekiq`           | Observing behavior of the background job runner Sidekiq.                |
+| `honeytail-apache`  | Ingesting Apache access logs using Honeytail.                           |
+| `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail.                          |
+| `logstash`          | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
+| `fluentd`           | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb.  |
 
 We highly encourage community contribution! Let us know if there's anything you'd like to see
 by [filing an issue](https://github.com/honeycombio/examples/issues/new) and CC-ing Honeycombers
