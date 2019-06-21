@@ -20,7 +20,7 @@ you along. The current examples are:
 | [`honeytail-dockerd`](honeytail-dockerd) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
 | [`honeytail-mysql`](honeytail-mysql) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using Honeytail's `mysql` parser to ingest MySQL slow query logs |
 | [`honeytail-nginx`](honeytail-nginx) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
-| `java-beeline` | A simple web app written instrumented for tracing with the Java Beeline for SpringBoot                           |
+| [`java-beeline`](java-beeline) | [beeline-java](https://docs.honeycomb.io/getting-data-in/java/beeline/)| A simple web app instrumented for tracing with the Java Beeline for SpringBoot |
 | [`java-webapp`](java-webapp) | [libhoney-java](https://docs.honeycomb.io/sdk/java/) | A TODO API written and instrumented using Java Spring |
 | [`kubernetes-envoy-tracing`](kubernetes-envoy-tracing) | Using the [Honeycomb Opentracing Proxy](https://github.com/honeycombio/honeycomb-opentracing-proxy) to accept OpenTracing data | Two small services deployed to Kubernetes which communicate using [Envoy Proxy](https://www.envoyproxy.io/) |
 | [`node-tracing-example`](node-tracing-example) | [Node Beeline](https://docs.honeycomb.io/getting-data-in/javascript/beeline-nodejs/) | A simple webapp showing intra-service and cross-service tracing. |
