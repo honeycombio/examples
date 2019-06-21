@@ -9,30 +9,31 @@ Most of the top level directories in this repository correspond to an example
 which demonstrates instrumentation using Honeycomb and sample queries to help
 you along. The current examples are:
 
-| Directory | Description |
-| --- | --- |
-| `golang-gatekeeper` | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `ruby-gatekeeper` | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour) |
-| `golang-webapp` | A two-tier web application (Go+MySQL) which is a Twitter clone. |
-| `honeytail-dockerd` | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
-| `honeytail-nginx` | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
-| `python-api` | A TODO API written and instrumented using Python (Flask). |
-| `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing. |
-| `ruby-wiki-tracing` | A simple wiki (Ruby) manually instrumented for tracing. |
-| `java-webapp` | A TODO API written and instrumented using Java Spring |
+| Directory             | Description                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `golang-gatekeeper`   | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour)     |
+| `ruby-gatekeeper`     | An API server paired with the [gatekeeper tour](https://ui.honeycomb.io/quickstart/datasets/gatekeeper-tour)     |
+| `golang-webapp`       | A two-tier web application (Go+MySQL) which is a Twitter clone.                                                  |
+| `honeytail-dockerd`   | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon.   |
+| `honeytail-nginx`     | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
+| `python-api`          | A TODO API written and instrumented using Python (Flask).                                                        |
+| `golang-wiki-tracing` | A simple wiki (Go) manually instrumented for tracing.                                                            |
+| `ruby-wiki-tracing`   | A simple wiki (Ruby) manually instrumented for tracing.                                                          |
+| `java-webapp`         | A TODO API written and instrumented using Java Spring                                                            |
+| `java-beeline`        | A simple web app written instrumented for tracing with the Java Beeline for SpringBoot                           |
 
 ## Proposed Examples
 
 The following have been proposed but not implemented:
 
-| Directory | Description |
-| --- | --- |
-| `javascript-api` | A TODO API written and instrumented using JavaScript. |
-| `sidekiq` | Observing behavior of the background job runner Sidekiq. |
-| `honeytail-apache` | Ingesting Apache access logs using Honeytail. |
-| `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail. |
-| `logstash` | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
-| `fluentd` | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb. |
+| Directory           | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| `javascript-api`    | A TODO API written and instrumented using JavaScript.                   |
+| `sidekiq`           | Observing behavior of the background job runner Sidekiq.                |
+| `honeytail-apache`  | Ingesting Apache access logs using Honeytail.                           |
+| `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail.                          |
+| `logstash`          | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
+| `fluentd`           | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb.  |
 
 We highly encourage community contribution! Let us know if there's anything you'd like to see
 by [filing an issue](https://github.com/honeycombio/examples/issues/new) and CC-ing Honeycombers
