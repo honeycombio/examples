@@ -1,26 +1,8 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
 
-# Sinatra driver
-gem 'sinatra', '~> 1.0'
-gem 'sinatra-contrib'
+source "https://rubygems.org"
 
-gem 'activerecord', '~>5.1.2'
-gem 'activesupport', '~>5.1.2'
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem 'rake'
-
-gem 'honeycomb-beeline'
-gem 'shotgun', '~>0.9.1'
-
-gem 'httparty'
-
-group :test do
-  gem 'rack-test'
-  gem 'rspec', '~>3.0'
-  gem 'shoulda-matchers'
-end
-
-group :test, :development do
-  gem 'factory_girl'
-  gem 'pry-byebug'
-end
+gem "rails"
+gem "honeycomb-beeline"
