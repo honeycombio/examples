@@ -127,7 +127,6 @@ class Event
         Tempfile.create(dataset.partition.to_s) do |f|
           f << data.to_json
         end
-        # File.open("/tmp/api#{dataset.partition}.log", 'a') { |f| f.puts data.to_json }
         true
       rescue StandardError => e
         puts e.backtrace
