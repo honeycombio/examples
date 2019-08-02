@@ -15,9 +15,7 @@ more mature application - specifically addressing concepts like:
 - Adding complex objects to instrumentation
 - How timers fit in larger blocks of logic
 
-## Download or Build
-
-First, create and activate a virtual environment by downloading the code or cloning the repository.
+## Download and start
 
 To install the requirements, run:
 
@@ -25,29 +23,24 @@ To install the requirements, run:
 
 Start the application:
 
-`ruby server.rb`
+`bundle exec rackup config.ru`
 
-The server will start listening on port 4567.
-
+The server will start listening on port 9292.
 
 ## Run the server
 
-Before you launch the server, set the following environment variables:
+Running the `gatekeeper` server will start it listening on port 9292. Send HTTP POSTs to the `/1/events/<dataset-name>` endpoint with an `X-HONEYCOMB-TEAM` header containing one of the hardcoded api keys and with a body containing a JSON object. The server will process the POST and if everything looks good, eventually write it to `/tmp/api.#`, where # is a partition number (between 1-5).
 
-* `HONEYCOMB_WRITEKEY` - specifies the API key (aka "write key") available from [your account page](https://ui.honeycomb.io/account)
-* `HONEYCOMB_DATASET` - specify the dataset to where instrumentation events will be sent
-* `HONEYCOMB_SERVICE` - specify the name of your app (defaults to the dataset name)
-
-Running the `apiary` server will start it listening on port 4567. Send HTTP POSTs to the `/1/events/<dataset-name>` endpoint with an `X-HONEYCOMB-TEAM` header containing one of the hardcoded api keys and with a body containing a JSON object. The server will process the POST and if everything looks good, eventually write it to `/tmp/api#.log`, where # is a partition number (between 1-5).
-
-example of sending an event to the apiary server:
+example of sending an event to the server:
 ```bash
 ➜  curl -v localhost:8080/1/events/wade \
     -H "X-Honeycomb-Team: abcd123EFGH" \
     -H "X-Honeycomb-Event-Time: 2018-07-03T20:59:08.832016791Z" \
     -d '{"foo":3}'
 ```
-If you want to just see the instrumentation events on the command line instead of sending them to Honeycomb, add `(debug: true)` to the `Honeycomb.init` function in `server.rb`. By calling `Honeycomb.init(debug: true)`(and after restarting your server), the instrumentation events will the Beeline will not send any events to Honeycomb, but will instead print them to your app's standard error.
+This will show you the instrumentation events on the command line instead of sending them to Honeycomb.
+
+If you want to send this data to your dataset you can configure the Beeline with your write_key, and dataset in `server.rb` in the `Honeycomb.configure` method call.
 
 Hard-coded values for `X-Honeycomb-Team` (required header):
 
