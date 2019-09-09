@@ -11,6 +11,8 @@ services:
       DB_HOST: db
       HONEYCOMB_WRITEKEY: 
     restart: on-failure
+    depends_on:
+      - "db"
 
   db:
     image: mysql
@@ -21,6 +23,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: "example-python-api"
+    command: ["mysqld", "--default-authentication-plugin", "mysql_native_password"]
 
 volumes:
   example-python-api:
