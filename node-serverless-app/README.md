@@ -24,4 +24,4 @@ curl -X POST $LAMBDA_URL -d 'foo bar baz payload'
 
 The example code should produce the below `lambda` spans in a given trace:
 
-![lambda spans](/images/trace.png)
+![lambda spans](images/trace.png)
