@@ -12,6 +12,7 @@ Here's an example of a notification that Honeycomb Triggers would send and this 
   "version": "v0.1.0",
   "id": "abdcefg",
   "name": "trig on ttt",
+  "trigger_description": "To troubleshoot, please look up the steps in our runbook",
   "trigger_url": "https://ui.honeycomb.io/team/datasets/dataset/triggers/abdcefg",
   "status": "TRIGGERED",
   "summary": "Triggered: trig on ttt",
