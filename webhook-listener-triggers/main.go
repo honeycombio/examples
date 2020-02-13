@@ -53,7 +53,8 @@ type Notification struct {
 	SharedSecret string `json:"shared_secret"`
 	// TriggerName is the name of this trigger, as configured in the UI
 	TriggerName string `json:"name"`
-        TriggerID string   `json:"id"`
+	TriggerID string   `json:"id"`
+	TriggerDescription string `json:"trigger_description"`
 	// Status will be TRIGGERED or OK
 	Status          string          `json:"status"`
 	Summary         string          `json:"summary"`
