@@ -21,7 +21,7 @@
     <properties>
         <java.version>1.8</java.version>
 
-        <beelineVersion>1.0.0-SNAPSHOT</beelineVersion>
+        <beelineVersion>1.1.0</beelineVersion>
         <wireMockVersion>2.20.0</wireMockVersion>
         <restAssuredVersion>3.3.0</restAssuredVersion>
     </properties>
