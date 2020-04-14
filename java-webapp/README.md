@@ -32,11 +32,11 @@ This application requires Java 8.
 
 Run the application using the maven wrapper as follows:
 ```sh
-./mvnw install && ./mvnw spring-boot:run -pl io.honeycomb.examples:libhoney-java-example-webapp
+mvn install && mvn spring-boot:run -pl io.honeycomb.examples:libhoney-java-example-webapp
 ```
 Alternatively, you can build an executable jar in the module target directory using:
  ```sh
- ./mvnw package
+ mvn package
  ```
 
 ### Global fields
@@ -73,7 +73,7 @@ This application exposes basic REST API for todos on port 8080 (see the
 ```sh
 $ curl \
     -H 'Content-Type: application/json' \
-    -X POST -d '{"description": "Walk the dog", "due": 1518816723}' \
+    -X POST -d '{"description": "Walk the dog", "due": 1518816723, "completed": false}' \
     localhost:8080/todos/
 ...
 
@@ -89,7 +89,7 @@ $ curl localhost:8080/todos/
 
 $ curl -X PUT \
     -H 'Content-Type: application/json' \
-    -d '{"description": "Walk the cat"}' \
+    -d '{"description": "Walk the cat", "due": 1518816723, "completed": false}' \
     localhost:8080/todos/1/
 {
   "completed": false,
