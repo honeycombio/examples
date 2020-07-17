@@ -41,7 +41,7 @@ requests, and forwards them all to `service1`, which then in turn calls
 `service2` multiple times. All service-to-service communication happens via
 Envoys.
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy-example-arch.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/envoy-example-arch.png)
 
 - Envoy is listening for ingress on port 80 in each pod
 - For egress, `service1` hits `localhost:9000` (Envoy will listen on this port
@@ -77,7 +77,7 @@ You can get the service to echo back a string (wrapped in some HTML) by using
 
 ```
 $ curl localhost:8000/echo/friend
-<img src="https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy.png" height="100" />
+<img src="https://raw.githubusercontent.com/honeycombio/examples/main/_internal/envoy.png" height="100" />
 <pre><code>Hello friend!
 
 Served by:
@@ -87,20 +87,20 @@ pod: service1-68d8d4ff9f-vv2vp</code></pre>
 
 or in browser:
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy-reply.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/envoy-reply.png)
 
 If you query Honeycomb you should be able to see your exact request given the
 right parameters. `BREAK DOWN` by `serviceName` (i.e., egress pod) and
 `http.url` is a fun one.
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy-heatmap.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/envoy-heatmap.png)
 
 Clicking on the graph as suggested will render a full trace view. `serviceName`
 is the ID of the Pod used for egress for each step of the trace. `name` is the
 service (or address, in some rare cases) it called. As you can see, `service1`
 calls `service2` five times, and `/stage/3` is usually the slowest.
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/envoy-traceview.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/envoy-traceview.png)
 
 ## Building the Docker image
 
