@@ -22,13 +22,13 @@ Once running, you can leave it for a while and you will be able to ask questions
 in Honeycomb like which queries are slowest, grouped by `normalized_query`,
 `client`, `user`, and so on.
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/mysql-heatmap.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/mysql-heatmap.png)
 
 You can even use BubbleUp to dive into details about where you might want to
 explore next when particular queries are slow, or simply odd.
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/mysql-bubbleup-select.png)
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/mysql-bubbleup-histos.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/mysql-bubbleup-select.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/mysql-bubbleup-histos.png)
 
 Note the usage of `--drop_field=query` as a flag for Honeytail. This will
 ensure that the `query` field (which contains the raw, non-normalized query) is

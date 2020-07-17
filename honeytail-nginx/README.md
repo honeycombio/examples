@@ -8,7 +8,7 @@ native code instrumentation later.
 
 This example demonstrates this concept by using nginx as a reverse proxy to the
 [Python API
-example](https://github.com/honeycombio/examples/tree/master/python-api), and
+example](https://github.com/honeycombio/examples/tree/main/python-api), and
 ingesting the nginx access logs as Honeycomb events.
 
 ## Run Natively
@@ -74,4 +74,4 @@ $ curl localhost/api/todos/
 
 ## Example Queries
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/honeytail-nginx-q1.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/honeytail-nginx-q1.png)

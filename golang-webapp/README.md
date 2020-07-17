@@ -63,4 +63,4 @@ $ docker-compose build && docker-compose up
 
 ## Example Queries
 
-![](https://raw.githubusercontent.com/honeycombio/examples/master/_internal/golang-webapp-q1.png)
+![](https://raw.githubusercontent.com/honeycombio/examples/main/_internal/golang-webapp-q1.png)
