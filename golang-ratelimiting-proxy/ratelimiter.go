@@ -3,14 +3,14 @@ package main
 import (
 	"math/rand"
 
-	"github.com/honeycombio/hound/leakybucket"
+	"github.com/honeycombio/leakybucket"
 )
 
 type RandomRateLimiter struct {
 	Frequency int // how often to reply with rate limited
 }
 
-func (r *RandomRateLimiter) Add(key string, opts leakybucket.Options) error {
+func (r *RandomRateLimiter) Add(key string) error {
 	if rand.Intn(r.Frequency) == 0 {
 		return &leakybucket.BucketOverflow{}
 	}
