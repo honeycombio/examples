@@ -1,3 +1,4 @@
 *.swp
 *.pyc
 .DS_Store
+golang-gatekeeper/golang-gatekeeper

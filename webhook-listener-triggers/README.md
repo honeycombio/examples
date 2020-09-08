@@ -64,10 +64,6 @@ The `result_groups_triggered` key only lists the `fooOOOddd` value becaues it is
 
 Clone the repository into \$GOPATH/src/github.com/honeycombio/examples.
 
-Pull dependencies.
-
-    $ go get -u ./...
-
 Run app.
 
     $ go run main.go
