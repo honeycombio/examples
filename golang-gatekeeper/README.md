@@ -18,8 +18,9 @@ more mature application - specifically addressing concepts like:
 ## Download or Build
 
 You can download the code by cloning the repository.
+`git clone https://github.com/honeycombio/examples`
 
-Build it with `cd golang-gatekeeper; go get ./...; go build -o gatekeeper`
+Build it with `cd golang-gatekeeper; go build`
 
 ## Run the server
 
