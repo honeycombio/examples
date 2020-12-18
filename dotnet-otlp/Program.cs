@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace dotnet_otlp
 {
-	public class Program
+    public class Program
     {
         public static void Main(string[] args)
         {

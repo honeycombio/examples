@@ -10,9 +10,9 @@ using OpenTelemetry.Trace;
 
 namespace dotnet_otlp
 {
-	public class Startup
+    public class Startup
     {
-		public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
         }
@@ -23,19 +23,19 @@ namespace dotnet_otlp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-			services.AddOpenTelemetryTracing((builder) => builder
+            services.AddOpenTelemetryTracing((builder) => builder
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(this.Configuration.GetValue<string>("Otlp:ServiceName")))
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation()
                         .AddOtlpExporter(otlpOptions =>
                         {
                             otlpOptions.Endpoint = this.Configuration.GetValue<string>("Otlp:Endpoint");
-							otlpOptions.Credentials = new Grpc.Core.SslCredentials();
+                            otlpOptions.Credentials = new Grpc.Core.SslCredentials();
 
-							var headers = new Grpc.Core.Metadata();
-							headers.Add("x-honeycomb-team", this.Configuration.GetValue<string>("Otlp:ApiKey"));
-							headers.Add("x-honeycomb-dataset", this.Configuration.GetValue<string>("Otlp:Dataset"));
-							otlpOptions.Headers = headers;
+                            var headers = new Grpc.Core.Metadata();
+                            headers.Add("x-honeycomb-team", this.Configuration.GetValue<string>("Otlp:ApiKey"));
+                            headers.Add("x-honeycomb-dataset", this.Configuration.GetValue<string>("Otlp:Dataset"));
+                            otlpOptions.Headers = headers;
                         }));
         }
 
