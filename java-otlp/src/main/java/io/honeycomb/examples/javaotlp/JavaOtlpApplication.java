@@ -26,7 +26,7 @@ public class JavaOtlpApplication {
 			.setEndpoint("api.honeycomb.io:443")
 			.setUseTls(true)
 			.addHeader("x-honeycomb-team", "")
-			.addHeader("x-honeycomb-dataset", "test-otlp")
+			.addHeader("x-honeycomb-dataset", "")
 			.build();
 
 		// Configure the OpenTelemtry SDK with the exporter
