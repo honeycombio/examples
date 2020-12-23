@@ -14,7 +14,7 @@ from opentelemetry.sdk.trace.export import SimpleExportSpanProcessor
 otlp_exporter = OTLPSpanExporter(
 	endpoint="api.honeycomb.io:443",
 	credentials=ssl_channel_credentials(),
-	headers=(("x-honeycomb-team", ""),("x-honeycomb-dataset","test-otlp"))
+	headers=(("x-honeycomb-team", ""),("x-honeycomb-dataset",""))
 )
 
 trace.set_tracer_provider(TracerProvider(resource=Resource({"service.name": "python-otlp", "service.version":"0.1"})))
