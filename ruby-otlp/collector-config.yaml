@@ -1,0 +1,18 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  otlp:
+    endpoint: api.honeycomb.io:443
+    headers:
+      "x-honeycomb-team": ""
+      "x-honeycomb-dataset": ""
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp]

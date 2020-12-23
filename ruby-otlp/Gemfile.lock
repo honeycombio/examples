@@ -1,0 +1,38 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    google-protobuf (3.14.0)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    opentelemetry-api (0.11.0)
+    opentelemetry-common (0.11.0)
+      opentelemetry-api (~> 0.11.0)
+    opentelemetry-exporter-otlp (0.11.0)
+      google-protobuf (>= 3.4.1.1, < 4)
+      opentelemetry-api (~> 0.11.0)
+      opentelemetry-common (~> 0.11.0)
+    opentelemetry-sdk (0.11.1)
+      opentelemetry-api (~> 0.11.0)
+      opentelemetry-common (~> 0.11.0)
+    rack (2.2.3)
+    rack-protection (2.1.0)
+      rack
+    ruby2_keywords (0.0.2)
+    sinatra (2.1.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.1.0)
+      tilt (~> 2.0)
+    tilt (2.0.10)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  opentelemetry-api
+  opentelemetry-exporter-otlp
+  opentelemetry-sdk
+  sinatra
+
+BUNDLED WITH
+   2.1.4
