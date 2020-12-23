@@ -59,9 +59,9 @@ func main() {
 		_, _ = io.WriteString(w, "Hello, world!\n")
 	}
 
-	log.Println("listening at http://localhost:7778/hello")
-	http.Handle("/hello", otelhttp.NewHandler(http.HandlerFunc(helloHandler), "Hello"))
-	err := http.ListenAndServe(":7778", nil)
+	log.Println("listening at http://localhost:8080")
+	http.Handle("/", otelhttp.NewHandler(http.HandlerFunc(helloHandler), ""))
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic(err)
 	}
