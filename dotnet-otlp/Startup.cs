@@ -51,7 +51,7 @@ namespace dotnet_otlp
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/hello", async context =>
+                endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
