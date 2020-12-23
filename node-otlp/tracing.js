@@ -10,11 +10,11 @@ const provider = new NodeTracerProvider({ logLevel: LogLevel.ERROR });
 
 const metadata = new grpc.Metadata();
 metadata.set("x-honeycomb-team", "");
-metadata.set("x-honeycomb-dataset", "test-otlp");
+metadata.set("x-honeycomb-dataset", "");
 
 const collectorOptions = {
 	serviceName: 'node-otlp',
-	url: 'api-dogfood.honeycomb.io:443',
+	url: 'api.honeycomb.io:443',
 	credentials: grpc.credentials.createSsl(),
 	metadata
   };
