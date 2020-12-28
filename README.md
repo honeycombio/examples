@@ -18,6 +18,7 @@ you along. The current examples are:
 | [`golang-webapp`](golang-webapp) | [libhoney-go](https://docs.honeycomb.io/sdk/go/) | A two-tier web application (Go+MySQL) which is a Twitter clone. |
 | [`golang-wiki-tracing`](golang-wiki-tracing) | [Manual Tracing](https://docs.honeycomb.io/working-with-data/tracing/send-trace-data/#manual-tracing) with Go | A simple wiki (Go) manually instrumented for tracing. |
 | [`honeytail-dockerd`](honeytail-dockerd) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `keyval` parser to ingest the structured logs of the [Docker]() container engine daemon. |
+| [`honeytail-haproxy`](honeytail-haproxy) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [HAProxy](https://www.haproxy.org/) access logs from an instance acting as a reverse proxy. |
 | [`honeytail-mysql`](honeytail-mysql) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using Honeytail's `mysql` parser to ingest MySQL slow query logs |
 | [`honeytail-nginx`](honeytail-nginx) | [Honeytail](https://docs.honeycomb.io/getting-data-in/honeytail/) (flat log files) | Using [Honeytail]()'s `nginx` parser to ingest [Nginx]() access logs from an instance acting as a reverse proxy. |
 | [`java-beeline`](java-beeline) | [beeline-java](https://docs.honeycomb.io/getting-data-in/java/beeline/)| A simple web app instrumented for tracing with the Java Beeline for SpringBoot |
@@ -41,7 +42,6 @@ The following have been proposed but not implemented:
 | `javascript-api`    | A TODO API written and instrumented using JavaScript.                   |
 | `sidekiq`           | Observing behavior of the background job runner Sidekiq.                |
 | `honeytail-apache`  | Ingesting Apache access logs using Honeytail.                           |
-| `honeytail-haproxy` | Ingesting HAProxy access logs using Honeytail.                          |
 | `logstash`          | Using the Honeycomb Logstash plugin to send parsed events to Honeycomb. |
 | `fluentd`           | Using the Honeycomb Fluentd plugin to send parsed events to Honeycomb.  |
 
