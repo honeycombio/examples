@@ -16,7 +16,7 @@ import (
 	"go.opentelemetry.io/otel/semconv"
 	apiTrace "go.opentelemetry.io/otel/trace"
 
-	"google.golang.org/grpc/credentials"
+	gzip "google.golang.org/grpc/encoding/gzip"
 )
 
 func main() {
@@ -33,12 +33,13 @@ func main() {
 	ctx := context.Background()
 	exporter, _ := otlp.NewExporter(
 		ctx,
-		otlp.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
-		otlp.WithAddress("api.honeycomb.io:443"),
+		otlp.WithAddress("localhost:9090"),
+		otlp.WithInsecure(),
 		otlp.WithHeaders(map[string]string{
 			"x-honeycomb-team":    *apikey,
 			"x-honeycomb-dataset": *dataset,
 		}),
+		otlp.WithCompressor(gzip.Name),
 	)
 	otel.SetTracerProvider(
 		sdkTrace.NewTracerProvider(
@@ -59,9 +60,9 @@ func main() {
 		_, _ = io.WriteString(w, "Hello, world!\n")
 	}
 
-	log.Println("listening at http://localhost:8080")
+	log.Println("listening at http://localhost:5000")
 	http.Handle("/", otelhttp.NewHandler(http.HandlerFunc(helloHandler), ""))
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}
