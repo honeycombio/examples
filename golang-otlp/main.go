@@ -10,6 +10,7 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpgrpc"
 	"go.opentelemetry.io/otel/label"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdkTrace "go.opentelemetry.io/otel/sdk/trace"
@@ -31,15 +32,18 @@ func main() {
 	log.Println("Sending trace to dataset: " + *dataset)
 
 	ctx := context.Background()
-	exporter, _ := otlp.NewExporter(
-		ctx,
-		otlp.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
-		otlp.WithAddress("api.honeycomb.io:443"),
-		otlp.WithHeaders(map[string]string{
+	driver := otlpgrpc.NewDriver(
+		otlpgrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
+		otlpgrpc.WithEndpoint("api.honeycomb.io:443"),
+		otlpgrpc.WithHeaders(map[string]string{
 			"x-honeycomb-team":    *apikey,
 			"x-honeycomb-dataset": *dataset,
 		}),
 	)
+	exporter, err := otlp.NewExporter(ctx, driver)
+	if err != nil {
+		log.Fatal(err)
+	}
 	otel.SetTracerProvider(
 		sdkTrace.NewTracerProvider(
 			sdkTrace.WithConfig(sdkTrace.Config{DefaultSampler: sdkTrace.AlwaysSample()}),
@@ -61,7 +65,7 @@ func main() {
 
 	log.Println("listening at http://localhost:8080")
 	http.Handle("/", otelhttp.NewHandler(http.HandlerFunc(helloHandler), ""))
-	err := http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic(err)
 	}
