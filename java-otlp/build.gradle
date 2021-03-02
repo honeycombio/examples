@@ -13,10 +13,10 @@ repositories {
 }
 
 dependencies {
-	compile('io.opentelemetry:opentelemetry-api:0.13.1')
-	compile('io.opentelemetry:opentelemetry-sdk:0.13.1')
-	compile('io.opentelemetry:opentelemetry-exporter-otlp:0.13.1')
-	compile('io.opentelemetry:opentelemetry-extension-annotations:0.13.1')
+	compile('io.opentelemetry:opentelemetry-api:1.0.0')
+	compile('io.opentelemetry:opentelemetry-sdk:1.0.0')
+	compile('io.opentelemetry:opentelemetry-exporter-otlp:1.0.0')
+	compile('io.opentelemetry:opentelemetry-extension-annotations:1.0.0')
 	compile("io.grpc:grpc-netty-shaded:1.34.1")
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
