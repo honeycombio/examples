@@ -35,7 +35,7 @@ func main() {
 		ctx,
 		otlpgrpc.NewDriver(
 			otlpgrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
-			otlpgrpc.WithEndpoint("api-dogfood.honeycomb.io:443"),
+			otlpgrpc.WithEndpoint("api.honeycomb.io:443"),
 			otlpgrpc.WithHeaders(map[string]string{
 				"x-honeycomb-team":    *apikey,
 				"x-honeycomb-dataset": *dataset,
