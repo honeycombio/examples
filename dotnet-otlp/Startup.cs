@@ -1,10 +1,12 @@
+using System;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -29,10 +31,12 @@ namespace dotnet_otlp
                         .AddHttpClientInstrumentation()
                         .AddOtlpExporter(otlpOptions =>
                         {
-                            otlpOptions.Endpoint = this.Configuration.GetValue<string>("Otlp:Endpoint");
-                            otlpOptions.Credentials = new Grpc.Core.SslCredentials();
+                            otlpOptions.Endpoint = new Uri(this.Configuration.GetValue<string>("Otlp:Endpoint"));
+                            otlpOptions.GrpcChannelOptions = new GrpcChannelOptions{
+                                Credentials = new SslCredentials()
+                            };
 
-                            var headers = new Grpc.Core.Metadata();
+                            var headers = new Metadata();
                             headers.Add("x-honeycomb-team", this.Configuration.GetValue<string>("Otlp:ApiKey"));
                             headers.Add("x-honeycomb-dataset", this.Configuration.GetValue<string>("Otlp:Dataset"));
                             otlpOptions.Headers = headers;
