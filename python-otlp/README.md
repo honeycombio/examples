@@ -10,4 +10,4 @@ Then run the web app.
 python app.py
 ```
 
-Finally, open `http://localhost:8080` to generate some trace data that will be visble in the [Honeycomb UI](http://ui.honeycomb.io).
+Finally, open `http://localhost:5000` to generate some trace data that will be visble in the [Honeycomb UI](http://ui.honeycomb.io).
