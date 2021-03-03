@@ -10,12 +10,12 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpgrpc"
 	"go.opentelemetry.io/otel/label"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdkTrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/semconv"
 	apiTrace "go.opentelemetry.io/otel/trace"
-
 	"google.golang.org/grpc/credentials"
 )
 
@@ -33,12 +33,14 @@ func main() {
 	ctx := context.Background()
 	exporter, _ := otlp.NewExporter(
 		ctx,
-		otlp.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
-		otlp.WithAddress("api.honeycomb.io:443"),
-		otlp.WithHeaders(map[string]string{
-			"x-honeycomb-team":    *apikey,
-			"x-honeycomb-dataset": *dataset,
-		}),
+		otlpgrpc.NewDriver(
+			otlpgrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
+			otlpgrpc.WithEndpoint("api.honeycomb.io:443"),
+			otlpgrpc.WithHeaders(map[string]string{
+				"x-honeycomb-team":    *apikey,
+				"x-honeycomb-dataset": *dataset,
+			}),
+		),
 	)
 	otel.SetTracerProvider(
 		sdkTrace.NewTracerProvider(

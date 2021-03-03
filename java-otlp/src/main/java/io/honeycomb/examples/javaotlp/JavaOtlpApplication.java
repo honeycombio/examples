@@ -3,8 +3,12 @@ package io.honeycomb.examples.javaotlp;
 import java.util.Arrays;
 
 import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
+import io.opentelemetry.sdk.resources.Resource;
+import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
 
 import org.springframework.boot.CommandLineRunner;
@@ -19,19 +23,21 @@ public class JavaOtlpApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JavaOtlpApplication.class, args);
 
-		System.setProperty("otel.resource.attributes", "service.name=java-otlp");
-
 		// Create OTLP exporter that sends trace data to Honeycomb
 		OtlpGrpcSpanExporter exporter = OtlpGrpcSpanExporter.builder()
-			.setEndpoint("api.honeycomb.io:443")
-			.setUseTls(true)
-			.addHeader("x-honeycomb-team", "")
-			.addHeader("x-honeycomb-dataset", "")
+			.setEndpoint("https://api.honeycomb.io:443")
+			.addHeader("x-honeycomb-team", "<YOUR-APIKEY>")
+			.addHeader("x-honeycomb-dataset", "<YOUR-DATASET>")
 			.build();
 
 		// Configure the OpenTelemtry SDK with the exporter
-		OpenTelemetrySdk.getGlobalTracerManagement()
-			.addSpanProcessor(BatchSpanProcessor.builder(exporter).build());
+		OpenTelemetrySdk.builder()
+			.setTracerProvider(
+				SdkTracerProvider.builder()
+					.setResource(Resource.create(Attributes.of(AttributeKey.stringKey("service.name"), "java-otlp")))
+				.addSpanProcessor(BatchSpanProcessor.builder(exporter).build())
+				.build())
+			.buildAndRegisterGlobal();
 	}
 
 	@Bean

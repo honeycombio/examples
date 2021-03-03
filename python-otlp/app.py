@@ -9,17 +9,17 @@ from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import SimpleExportSpanProcessor
+from opentelemetry.sdk.trace.export import BatchExportSpanProcessor
 
 otlp_exporter = OTLPSpanExporter(
 	endpoint="api.honeycomb.io:443",
 	credentials=ssl_channel_credentials(),
-	headers=(("x-honeycomb-team", ""),("x-honeycomb-dataset",""))
+	headers=(("x-honeycomb-team", ""),("x-honeycomb-dataset","python-otlp"))
 )
 
 trace.set_tracer_provider(TracerProvider(resource=Resource({"service.name": "python-otlp", "service.version":"0.1"})))
 trace.get_tracer_provider().add_span_processor(
-    SimpleExportSpanProcessor(otlp_exporter)
+    BatchExportSpanProcessor(otlp_exporter)
 )
 
 app = flask.Flask(__name__)
