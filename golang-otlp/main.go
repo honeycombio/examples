@@ -2,16 +2,16 @@ package main
 
 import (
 	"context"
-	"flag"
 	"io"
 	"log"
 	"net/http"
+	"os"
 
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/otlp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpgrpc"
-	"go.opentelemetry.io/otel/label"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdkTrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/semconv"
@@ -19,44 +19,65 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-func main() {
-	apikey := flag.String("apikey", "", "Your Honeycomb API Key")
-	dataset := flag.String("dataset", "golang-otlp", "Your Honeycomb dataset")
-	flag.Parse()
-
-	if *apikey == "" {
-		log.Panicln("Honeycomb API key is required. Provide using '--apikey <key>' command line argument.")
+func initTracer() func() {
+	// Fetch the necessary settings (from environment variables, in this example).
+	// You can find the API key via https://ui.honeycomb.io/account after signing up for Honeycomb.
+	apikey, _ := os.LookupEnv("HONEYCOMB_API_KEY")
+	dataset, _ := os.LookupEnv("HONEYCOMB_DATASET")
+	if apikey == "" {
+		log.Panicln("Honeycomb API key is required. Set the HONEYCOMB_API_KEY environment variable.")
 	}
+	if dataset == "" {
+		dataset = "golang-otlp"
+	}
+	log.Println("Sending trace to dataset: " + dataset)
 
-	log.Println("Sending trace to dataset: " + *dataset)
-
+	// Initialize an OTLP exporter over gRPC and point it to Honeycomb.
 	ctx := context.Background()
-	exporter, _ := otlp.NewExporter(
+	exporter, err := otlp.NewExporter(
 		ctx,
 		otlpgrpc.NewDriver(
 			otlpgrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
 			otlpgrpc.WithEndpoint("api.honeycomb.io:443"),
 			otlpgrpc.WithHeaders(map[string]string{
-				"x-honeycomb-team":    *apikey,
-				"x-honeycomb-dataset": *dataset,
+				"x-honeycomb-team":    apikey,
+				"x-honeycomb-dataset": dataset,
 			}),
 		),
 	)
-	otel.SetTracerProvider(
-		sdkTrace.NewTracerProvider(
-			sdkTrace.WithConfig(sdkTrace.Config{DefaultSampler: sdkTrace.AlwaysSample()}),
-			sdkTrace.WithSpanProcessor(sdkTrace.NewBatchSpanProcessor(exporter)),
-			sdkTrace.WithResource(resource.NewWithAttributes(
-				semconv.ServiceNameKey.String("golang-otlp"),
-				semconv.ServiceVersionKey.String("0.1"),
-			)),
-		),
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Configure the OTel tracer provider.
+	provider := sdkTrace.NewTracerProvider(
+		sdkTrace.WithSampler(sdkTrace.AlwaysSample()),
+		sdkTrace.WithBatcher(exporter),
+		sdkTrace.WithResource(resource.NewWithAttributes(
+			semconv.ServiceNameKey.String("golang-otlp"),
+			semconv.ServiceVersionKey.String("0.1"),
+		)),
 	)
+	otel.SetTracerProvider(provider)
+
+	// This callback will ensure all spans get flushed before the program exits.
+	return func() {
+		ctx := context.Background()
+		err := provider.Shutdown(ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func main() {
+	cleanup := initTracer()
+	defer cleanup()
 
 	helloHandler := func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		span := apiTrace.SpanFromContext(ctx)
-		span.SetAttributes(label.String("foo", "bar"))
+		span.SetAttributes(attribute.String("foo", "bar"))
 
 		_, _ = io.WriteString(w, "Hello, world!\n")
 	}
