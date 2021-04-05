@@ -42,7 +42,7 @@ public class JavaOtlpApplication {
             .setPropagators(propagators)
             .setTracerProvider(
                 SdkTracerProvider.builder()
-                    .setResource(Resource.create(Attributes.of(AttributeKey.stringKey("service.name"), "java-otlp")))
+                    .setResource(Resource.create(Attributes.of(AttributeKey.stringKey("service.name"), "manual-instrumentation")))
                     .addSpanProcessor(new BaggageSpanProcessor())
                     .addSpanProcessor(BatchSpanProcessor.builder(exporter).build())
                     .build())
