@@ -1,0 +1,2 @@
+io/honeycomb/examples/javaotlp/JavaOtlpApplicationTests.java
+ io.honeycomb.examples.javaotlp.JavaOtlpApplicationTests

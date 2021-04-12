@@ -1,0 +1,43 @@
+plugins {
+	id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+group = 'io.honeycomb.examples'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile('io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:1.1.0-alpha')
+	compile('io.opentelemetry:opentelemetry-sdk:1.0.0')
+	compile('io.opentelemetry:opentelemetry-api:1.0.0')
+	compile('io.opentelemetry:opentelemetry-sdk-trace')
+}
+
+tasks {
+    shadowJar {
+        exclude("**/module-info.class")
+
+        // Prevents conflict with other SLF4J instances. Important for premain.
+        shadowJar.relocate 'org.slf4j', 'io.opentelemetry.javaagent.slf4j'
+        // rewrite dependencies calling Logger.getLogger
+        shadowJar.relocate 'java.util.logging.Logger', 'io.opentelemetry.javaagent.bootstrap.PatchLogger'
+
+        // relocate OpenTelemetry API usage
+        shadowJar.relocate "io.opentelemetry.api", "io.opentelemetry.javaagent.shaded.io.opentelemetry.api"
+        shadowJar.relocate "io.opentelemetry.semconv", "io.opentelemetry.javaagent.shaded.io.opentelemetry.semconv"
+        shadowJar.relocate "io.opentelemetry.spi", "io.opentelemetry.javaagent.shaded.io.opentelemetry.spi"
+        shadowJar.relocate "io.opentelemetry.context", "io.opentelemetry.javaagent.shaded.io.opentelemetry.context"
+
+        // relocate the OpenTelemetry extensions that are used by instrumentation modules
+        // these extensions live in the AgentClassLoader, and are injected into the user's class loader
+        // by the instrumentation modules that use them
+        shadowJar.relocate "io.opentelemetry.extension.aws", "io.opentelemetry.javaagent.shaded.io.opentelemetry.extension.aws"
+        shadowJar.relocate "io.opentelemetry.extension.kotlin", "io.opentelemetry.javaagent.shaded.io.opentelemetry.extension.kotlin"
+    }
+}
+
