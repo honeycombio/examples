@@ -1,4 +1,0 @@
-io/honeycomb/examples/javaotlp/BaggageSpanProcessor.java
- io.honeycomb.examples.javaotlp.BaggageSpanProcessor
-io/honeycomb/examples/javaotlp/MyTraceConfigurer.java
- io.honeycomb.examples.javaotlp.MyTraceConfigurer

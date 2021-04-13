@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Main-Class: io.opentelemetry.javaagent.OpenTelemetryAgent
+Agent-Class: io.opentelemetry.javaagent.OpenTelemetryAgent
+Premain-Class: io.opentelemetry.javaagent.OpenTelemetryAgent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Implementation-Vendor: Demo
+Implementation-Version: demo-1.0-SNAPSHOT-otel-1.0.0
+

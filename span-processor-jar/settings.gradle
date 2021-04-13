@@ -1,1 +1,4 @@
 rootProject.name = 'span-processor-jar'
+
+include "agent"
+include "custom"
