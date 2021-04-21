@@ -1,0 +1,58 @@
+2021-04-21T13:02:08.941Z	DEBUG	loggingexporter/logging_exporter.go:366	ResourceSpans #0
+Resource labels:
+     -> service.name: STRING(golang-otlp)
+     -> service.version: STRING(0.1)
+InstrumentationLibrarySpans #0
+InstrumentationLibrary go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp semver:0.19.0
+Span #0
+    Trace ID       : 48ab45f2800ced4b91e7f612f7153002
+    Parent ID      :
+    ID             : 88da4698e59b30a4
+    Name           :
+    Kind           : SPAN_KIND_SERVER
+    Start time     : 2021-04-21 13:02:08.246952 +0000 UTC
+    End time       : 2021-04-21 13:02:08.247060206 +0000 UTC
+    Status code    : STATUS_CODE_OK
+    Status message :
+Attributes:
+     -> net.transport: STRING(IP.TCP)
+     -> net.peer.name: STRING([::1])
+     -> net.peer.port: INT(55613)
+     -> net.host.name: STRING(localhost)
+     -> net.host.port: INT(8080)
+     -> http.method: STRING(GET)
+     -> http.target: STRING(/)
+     -> http.user_agent: STRING(Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36)
+     -> http.scheme: STRING(http)
+     -> http.host: STRING(localhost:8080)
+     -> http.flavor: STRING(1.1)
+     -> foo: STRING(bar)
+     -> attrKey: STRING(attrVal)
+     -> http.wrote_bytes: INT(14)
+     -> http.status_code: INT(200)
+Span #1
+    Trace ID       : 7095aef87ce1f7d295a5c4b07e5384c6
+    Parent ID      :
+    ID             : e7a21b9243672296
+    Name           :
+    Kind           : SPAN_KIND_SERVER
+    Start time     : 2021-04-21 13:02:08.375575 +0000 UTC
+    End time       : 2021-04-21 13:02:08.375658179 +0000 UTC
+    Status code    : STATUS_CODE_OK
+    Status message :
+Attributes:
+     -> net.transport: STRING(IP.TCP)
+     -> net.peer.name: STRING([::1])
+     -> net.peer.port: INT(55613)
+     -> net.host.name: STRING(localhost)
+     -> net.host.port: INT(8080)
+     -> http.method: STRING(GET)
+     -> http.target: STRING(/favicon.ico)
+     -> http.user_agent: STRING(Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36)
+     -> http.scheme: STRING(http)
+     -> http.host: STRING(localhost:8080)
+     -> http.flavor: STRING(1.1)
+     -> foo: STRING(bar)
+     -> attrKey: STRING(attrVal)
+     -> http.wrote_bytes: INT(14)
+     -> http.status_code: INT(200)

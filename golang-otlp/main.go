@@ -10,13 +10,13 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/baggage"
 	"go.opentelemetry.io/otel/exporters/otlp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpgrpc"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdkTrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/semconv"
 	apiTrace "go.opentelemetry.io/otel/trace"
-	"google.golang.org/grpc/credentials"
 )
 
 func initTracer() func() {
@@ -37,12 +37,13 @@ func initTracer() func() {
 	exporter, err := otlp.NewExporter(
 		ctx,
 		otlpgrpc.NewDriver(
-			otlpgrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
-			otlpgrpc.WithEndpoint("api.honeycomb.io:443"),
-			otlpgrpc.WithHeaders(map[string]string{
-				"x-honeycomb-team":    apikey,
-				"x-honeycomb-dataset": dataset,
-			}),
+			// otlpgrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")),
+			otlpgrpc.WithInsecure(),
+			otlpgrpc.WithEndpoint("localhost:4317"),
+			// otlpgrpc.WithHeaders(map[string]string{
+			// 	"x-honeycomb-team":    apikey,
+			// 	"x-honeycomb-dataset": dataset,
+			// }),
 		),
 	)
 	if err != nil {
@@ -78,6 +79,9 @@ func main() {
 		ctx := req.Context()
 		span := apiTrace.SpanFromContext(ctx)
 		span.SetAttributes(attribute.String("foo", "bar"))
+
+		span.SetAttributes(attribute.String("attrKey", "attrVal"))                         // present in exported data
+		ctx = baggage.ContextWithValues(ctx, attribute.String("baggageKey", "baggageVal")) // not present in exported data
 
 		_, _ = io.WriteString(w, "Hello, world!\n")
 	}
