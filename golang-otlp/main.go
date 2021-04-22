@@ -52,6 +52,7 @@ func initTracer() func() {
 
 	// Configure the OTel tracer provider.
 	provider := sdkTrace.NewTracerProvider(
+		sdkTrace.WithSpanProcessor(&BaggageSpanProcessor{}),
 		sdkTrace.WithSampler(sdkTrace.AlwaysSample()),
 		sdkTrace.WithBatcher(exporter),
 		sdkTrace.WithResource(resource.NewWithAttributes(
@@ -78,10 +79,13 @@ func main() {
 	helloHandler := func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		span := apiTrace.SpanFromContext(ctx)
+		defer span.End()
 		span.SetAttributes(attribute.String("foo", "bar"))
+		addTraceField(ctx, span, attribute.String("username", "mike"))
 
-		span.SetAttributes(attribute.String("attrKey", "attrVal"))                         // present in exported data
-		ctx = baggage.ContextWithValues(ctx, attribute.String("baggageKey", "baggageVal")) // not present in exported data
+		testSpan := apiTrace.SpanFromContext(ctx)
+		defer testSpan.End()
+		testSpan.SetAttributes(attribute.String("bar", "baz"))
 
 		_, _ = io.WriteString(w, "Hello, world!\n")
 	}
@@ -92,4 +96,28 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func addTraceField(ctx context.Context, span apiTrace.Span, attr attribute.KeyValue) {
+	span.SetAttributes(attr)
+	ctx = baggage.ContextWithValues(ctx, attr)
+}
+
+type BaggageSpanProcessor struct {
+}
+
+func (ssp *BaggageSpanProcessor) OnStart(ctx context.Context, span sdkTrace.ReadWriteSpan) {
+	baggageVals := baggage.Set(ctx)
+	span.SetAttributes(baggageVals.ToSlice()...)
+}
+
+func (ssp *BaggageSpanProcessor) OnEnd(s sdkTrace.ReadOnlySpan) {
+}
+
+func (ssp *BaggageSpanProcessor) Shutdown(ctx context.Context) error {
+	return nil
+}
+
+func (ssp *BaggageSpanProcessor) ForceFlush(context.Context) error {
+	return nil
 }

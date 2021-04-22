@@ -1,23 +1,23 @@
-2021-04-21T13:02:08.941Z	DEBUG	loggingexporter/logging_exporter.go:366	ResourceSpans #0
+2021-04-22T11:30:27.399Z	DEBUG	loggingexporter/logging_exporter.go:366	ResourceSpans #0
 Resource labels:
      -> service.name: STRING(golang-otlp)
      -> service.version: STRING(0.1)
 InstrumentationLibrarySpans #0
 InstrumentationLibrary go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp semver:0.19.0
 Span #0
-    Trace ID       : 48ab45f2800ced4b91e7f612f7153002
+    Trace ID       : a0bad8c587c38392a2f71750641fae78
     Parent ID      :
-    ID             : 88da4698e59b30a4
+    ID             : 95ae5ec86ef6a14d
     Name           :
     Kind           : SPAN_KIND_SERVER
-    Start time     : 2021-04-21 13:02:08.246952 +0000 UTC
-    End time       : 2021-04-21 13:02:08.247060206 +0000 UTC
+    Start time     : 2021-04-22 11:30:25.973508 +0000 UTC
+    End time       : 2021-04-22 11:30:25.973558835 +0000 UTC
     Status code    : STATUS_CODE_OK
     Status message :
 Attributes:
      -> net.transport: STRING(IP.TCP)
      -> net.peer.name: STRING([::1])
-     -> net.peer.port: INT(55613)
+     -> net.peer.port: INT(52616)
      -> net.host.name: STRING(localhost)
      -> net.host.port: INT(8080)
      -> http.method: STRING(GET)
@@ -27,23 +27,22 @@ Attributes:
      -> http.host: STRING(localhost:8080)
      -> http.flavor: STRING(1.1)
      -> foo: STRING(bar)
-     -> attrKey: STRING(attrVal)
-     -> http.wrote_bytes: INT(14)
-     -> http.status_code: INT(200)
+     -> username: STRING(mike)
+     -> bar: STRING(baz)
 Span #1
-    Trace ID       : 7095aef87ce1f7d295a5c4b07e5384c6
+    Trace ID       : 13994e29640aac8af20255beb4822d34
     Parent ID      :
-    ID             : e7a21b9243672296
+    ID             : 27f3a2741cf4ead0
     Name           :
     Kind           : SPAN_KIND_SERVER
-    Start time     : 2021-04-21 13:02:08.375575 +0000 UTC
-    End time       : 2021-04-21 13:02:08.375658179 +0000 UTC
+    Start time     : 2021-04-22 11:30:26.075095 +0000 UTC
+    End time       : 2021-04-22 11:30:26.075136138 +0000 UTC
     Status code    : STATUS_CODE_OK
     Status message :
 Attributes:
      -> net.transport: STRING(IP.TCP)
      -> net.peer.name: STRING([::1])
-     -> net.peer.port: INT(55613)
+     -> net.peer.port: INT(52616)
      -> net.host.name: STRING(localhost)
      -> net.host.port: INT(8080)
      -> http.method: STRING(GET)
@@ -53,6 +52,5 @@ Attributes:
      -> http.host: STRING(localhost:8080)
      -> http.flavor: STRING(1.1)
      -> foo: STRING(bar)
-     -> attrKey: STRING(attrVal)
-     -> http.wrote_bytes: INT(14)
-     -> http.status_code: INT(200)
+     -> username: STRING(mike)
+     -> bar: STRING(baz)
