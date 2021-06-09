@@ -1,6 +1,8 @@
 "use strict";
 
-const grpc = require('grpc');
+const grpc = require("@grpc/grpc-js");
+const { ExpressInstrumentation } = require("@opentelemetry/instrumentation-express");
+const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { NodeTracerProvider } = require("@opentelemetry/node");
 const { registerInstrumentations } = require('@opentelemetry/instrumentation');
 const { SimpleSpanProcessor } = require("@opentelemetry/tracing");
@@ -14,17 +16,20 @@ const provider = new NodeTracerProvider();
 provider.addSpanProcessor(
   new SimpleSpanProcessor(
     new CollectorTraceExporter({
-			serviceName: 'node-otlp',
-			url: 'api.honeycomb.io:443',
-			credentials: grpc.credentials.createSsl(),
-			metadata
-		})
+      serviceName: 'node-otlp',
+      url: 'grpc://api.honeycomb.io:443/',
+      credentials: grpc.credentials.createSsl(),
+      metadata
+    })
   )
 );
 provider.register();
 
 registerInstrumentations({
-  tracerProvider: provider,
+  instrumentations: [
+    HttpInstrumentation,
+    ExpressInstrumentation
+  ]
 });
 
 console.log("tracing initialized");
