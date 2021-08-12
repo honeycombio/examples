@@ -1,5 +1,7 @@
 # Honeycomb Instrumentation Examples
 
+[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/REPO)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
+
 The full power of Honeycomb is unlocked by proper instrumentation, especially at
 the code level. The examples in this repository will help guide you
 along the way to unlocking this power for yourself by showing you how
