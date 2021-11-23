@@ -1,18 +1,13 @@
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
+require 'opentelemetry/instrumentation/all'
 require 'rubygems'
 require 'bundler/setup'
 
 Bundler.require
 
 OpenTelemetry::SDK.configure do |c|
-  c.service_name = 'ruby-otlp'
-  c.use 'OpenTelemetry::Instrumentation::Sinatra'
-  c.add_span_processor(
-    OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
-      OpenTelemetry::Exporter::OTLP::Exporter.new
-    )
-  )
+  c.use_all() # enables all instrumentation!
 end
 
 get '/' do
