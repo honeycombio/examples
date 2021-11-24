@@ -5,7 +5,7 @@ This is a simple example Sinatra web server that uses OpenTelemetry to generate 
 Environment configuration:
 ```
 export OTEL_EXPORTER_OTLP_ENDPOINT="https://api.honeycomb.io"
-export OTEL_EXPORTER_OTLP_HEADERS="x-honeycomb-team=your-aip-key,x-honeycomb-dataset=ruby-otlp"
+export OTEL_EXPORTER_OTLP_HEADERS="x-honeycomb-team=your-api-key,x-honeycomb-dataset=ruby-otlp"
 export OTEL_SERVICE_NAME="sinatra-app"
 ```
 
