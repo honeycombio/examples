@@ -10,8 +10,8 @@ const { OTLPTraceExporter } = require("@opentelemetry/exporter-trace-otlp-grpc")
 
 
 const metadata = new Metadata()
-metadata.set('x-honeycomb-team', process.env.HONEYCOMB_API_KEY);
-metadata.set('x-honeycomb-dataset', 'otel-nodejs');
+metadata.set('x-honeycomb-team', '<YOUR_API_KEY>');
+metadata.set('x-honeycomb-dataset', '<YOUR_DATASET>');
 const traceExporter = new OTLPTraceExporter({
   url: 'grpc://api.honeycomb.io:443/',
   credentials: credentials.createSsl(),
