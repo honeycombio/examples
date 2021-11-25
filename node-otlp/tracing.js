@@ -6,13 +6,13 @@ const { NodeSDK } = require('@opentelemetry/sdk-node');
 const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
-const { CollectorTraceExporter } = require("@opentelemetry/exporter-collector-grpc");
+const { OTLPTraceExporter } = require("@opentelemetry/exporter-trace-otlp-grpc");
 
 
 const metadata = new Metadata()
 metadata.set('x-honeycomb-team', process.env.HONEYCOMB_API_KEY);
 metadata.set('x-honeycomb-dataset', 'otel-nodejs');
-const traceExporter = new CollectorTraceExporter({
+const traceExporter = new OTLPTraceExporter({
   url: 'grpc://api.honeycomb.io:443/',
   credentials: credentials.createSsl(),
   metadata
