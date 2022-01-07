@@ -10,7 +10,7 @@ We'll instrument a simple application for tracing by following a few general ste
 2. To represent a unit of work within a trace as a span, add code to generate a span ID and capture the start time. At the **call site** of the unit of work, pass down a new request context with the newly-generated span ID as the `parentId`. Upon work completion, send the span with a calculated `durationMs`.
 3. Rinse and repeat.
 
-**Note**: Sound complicated? The [Honeycomb Beeline for Go](https://github.com/honeycombio/beeline-go) handles all of this propagation magic for you :)
+**Note**: Sound complicated? The [Opentelemetry for Go](https://github.com/honeycombio/opentelemetry-go) handles all of this propagation magic for you :)
 
 ## Usage
 
@@ -44,7 +44,7 @@ And click into the graph to inspect individual traces:
 - If emitting Honeycomb events or structured logs, make sure that the **start** time gets used as the canonical timestamp, not the time at event emission.
 - Remember, the root span should **not** have a `parentId`.
 - Don't forget to add some metadata of your own! It's helpful to identify metadata in the surrounding code that might be interesting when debugging your application.
-- Check out our [Honeycomb Beeline for Go](https://github.com/honeycombio/beeline-go) to get this context propagation for free!
+- Check out [Opentelemetry for Go](https://github.com/honeycombio/opentelemetry-go) to get this context propagation for free!
 
 ## A Note on Code Style
 
@@ -52,5 +52,5 @@ The purpose of this example is to illustrate the **bare minimum necessary** to p
 
 Are you grossed out by the code? Fortunately, there are a number of options beyond this DIY approach:
 
-- Use the [Honeycomb Beeline for Go](https://github.com/honeycombio/beeline-go)!
+- Use the [Opentelemetry for Go](https://github.com/honeycombio/opentelemetry-go)!
 - Consider using a framework like Go Kit which includes [OpenTracing-compatible tracing support](https://github.com/go-kit/kit/tree/master/tracing)
