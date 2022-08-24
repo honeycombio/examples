@@ -2,6 +2,6 @@
   "name": "instrumentation-tutorial-serverless",
   "version": "0.1.0",
   "dependencies": {
-    "honeycomb-beeline": "^1.2.0"
+    "honeycomb-beeline": "^1.8.6"
   }
 }
